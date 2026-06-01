@@ -110,7 +110,8 @@ mediaRouter.put(
   async (c) => {
     const id = c.req.param('id');
     const input = c.req.valid('json');
-    const [updated] = await db.update(media).set(input).where(eq(media.id, id)).returning();
+    const patch = { altText: input.altText, caption: input.caption };
+    const [updated] = await db.update(media).set(patch).where(eq(media.id, id)).returning();
     if (!updated) return c.json({ error: 'Not found' }, 404);
     return c.json(updated);
   },

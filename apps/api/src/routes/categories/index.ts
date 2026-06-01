@@ -52,11 +52,8 @@ categoriesRouter.post('/', authMiddleware, zValidator('json', categorySchema), a
 categoriesRouter.put('/:id', authMiddleware, zValidator('json', categorySchema.partial()), async (c) => {
   const id = c.req.param('id');
   const input = c.req.valid('json');
-  const [cat] = await db
-    .update(categories)
-    .set({ ...input, updatedAt: Date.now() })
-    .where(eq(categories.id, id))
-    .returning();
+  const patch = { ...input, updatedAt: Date.now() };
+  const [cat] = await db.update(categories).set(patch).where(eq(categories.id, id)).returning();
 
   if (!cat) return c.json({ error: 'Category not found' }, 404);
   return c.json(cat);
