@@ -1,7 +1,7 @@
 import { db, posts, postTags, tags, categories, users, postRevisions } from '@speakle/db';
 import { eq, desc, and, or, like, inArray, sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
-import { dbv } from '../lib/db-helpers';
+import { dbv } from '../lib/db-helpers.js';
 import type { CreatePostInput, UpdatePostInput } from '@speakle/shared';
 
 function generateSlug(title: string): string {

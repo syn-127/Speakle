@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { createPostSchema, updatePostSchema, postQuerySchema, type CreatePostInput, type UpdatePostInput } from '@speakle/shared';
 import { z } from 'zod';
-import { authMiddleware, adminOnly } from '../../middleware/auth';
+import { authMiddleware, adminOnly } from '../../middleware/auth.js';
 import {
   listPosts,
   getPost,
@@ -14,7 +14,7 @@ import {
   listRevisions,
   restoreRevision,
 } from '../../services/post.service';
-import { validated } from '../../lib/db-helpers';
+import { validated } from '../../lib/db-helpers.js';
 
 export const postsRouter = new Hono();
 

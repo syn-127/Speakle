@@ -4,8 +4,8 @@ import { z } from 'zod';
 import { db, categories, tags } from '@speakle/db';
 import { eq, asc } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
-import { authMiddleware } from '../../middleware/auth';
-import { dbv } from '../../lib/db-helpers';
+import { authMiddleware } from '../../middleware/auth.js';
+import { dbv } from '../../lib/db-helpers.js';
 
 const categorySchema = z.object({
   name: z.string().min(1).max(100),

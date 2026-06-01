@@ -3,8 +3,8 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import { db, settings } from '@speakle/db';
 import { eq } from 'drizzle-orm';
-import { authMiddleware } from '../../middleware/auth';
-import { setSetting, getSettingsByCategory } from '../../lib/settings';
+import { authMiddleware } from '../../middleware/auth.js';
+import { setSetting, getSettingsByCategory } from '../../lib/settings.js';
 
 const CATEGORIES = ['general', 'seo', 'ai', 'appearance'] as const;
 

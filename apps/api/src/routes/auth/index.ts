@@ -3,9 +3,9 @@ import { zValidator } from '@hono/zod-validator';
 import { db, users } from '@speakle/db';
 import { eq } from 'drizzle-orm';
 import { loginSchema, changePasswordSchema } from '@speakle/shared';
-import { createSession, deleteSession, verifyPassword, hashPassword } from '../../lib/auth';
-import { authMiddleware } from '../../middleware/auth';
-import { dbv } from '../../lib/db-helpers';
+import { createSession, deleteSession, verifyPassword, hashPassword } from '../../lib/auth.js';
+import { authMiddleware } from '../../middleware/auth.js';
+import { dbv } from '../../lib/db-helpers.js';
 
 export const authRouter = new Hono();
 

@@ -3,15 +3,15 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { authRouter } from './routes/auth/index';
-import { postsRouter } from './routes/posts/index';
-import { categoriesRouter, tagsRouter } from './routes/categories/index';
-import { mediaRouter } from './routes/media/index';
-import { settingsRouter } from './routes/settings/index';
-import { pluginsRouter, themesRouter } from './routes/plugins/index';
-import { aiRouter } from './routes/ai/index';
-import { blogRouter } from './routes/blog/index';
-import { commentsRouter } from './routes/comments/index';
+import { authRouter } from './routes/auth/index.js';
+import { postsRouter } from './routes/posts/index.js';
+import { categoriesRouter, tagsRouter } from './routes/categories/index.js';
+import { mediaRouter } from './routes/media/index.js';
+import { settingsRouter } from './routes/settings/index.js';
+import { pluginsRouter, themesRouter } from './routes/plugins/index.js';
+import { aiRouter } from './routes/ai/index.js';
+import { blogRouter } from './routes/blog/index.js';
+import { commentsRouter } from './routes/comments/index.js';
 
 const WEB_URL = process.env['WEB_URL'] ?? 'http://localhost:5173';
 

@@ -13,8 +13,8 @@ import {
   type ImproveSeoInput,
   type ContinueWritingInput,
 } from '@speakle/shared';
-import { authMiddleware } from '../../middleware/auth';
-import { getAIConfig, getTavilyKey } from '../../lib/settings';
+import { authMiddleware } from '../../middleware/auth.js';
+import { getAIConfig, getTavilyKey } from '../../lib/settings.js';
 
 // Cast helper — @hono/zod-validator infers from one Zod instance while types in
 // @speakle/shared come from another. The runtime value is always correct;

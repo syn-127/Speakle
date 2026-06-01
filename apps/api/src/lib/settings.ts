@@ -1,7 +1,7 @@
 import { db, settings } from '@speakle/db';
 import { eq } from 'drizzle-orm';
-import { safeDecrypt, encrypt } from './crypto';
-import { dbv } from './db-helpers';
+import { safeDecrypt, encrypt } from './crypto.js';
+import { dbv } from './db-helpers.js';
 import type { AIProviderConfig } from '@speakle/shared';
 
 const ENCRYPTED_KEYS = ['anthropic_api_key', 'openai_api_key', 'tavily_api_key'];

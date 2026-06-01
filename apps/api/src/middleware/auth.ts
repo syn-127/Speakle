@@ -1,5 +1,5 @@
 import { createMiddleware } from 'hono/factory';
-import { validateSession } from '../lib/auth';
+import { validateSession } from '../lib/auth.js';
 import type { User } from '@speakle/shared';
 
 type AuthEnv = {

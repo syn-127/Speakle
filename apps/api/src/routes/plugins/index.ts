@@ -3,8 +3,8 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import { db, plugins, themes } from '@speakle/db';
 import { eq, asc } from 'drizzle-orm';
-import { authMiddleware, adminOnly } from '../../middleware/auth';
-import { dbv } from '../../lib/db-helpers';
+import { authMiddleware, adminOnly } from '../../middleware/auth.js';
+import { dbv } from '../../lib/db-helpers.js';
 
 export const pluginsRouter = new Hono();
 
