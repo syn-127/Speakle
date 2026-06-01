@@ -10,6 +10,7 @@
     },
     {
       "source": "/(.*)",
+      "has": [{ "type": "method", "value": "GET" }],
       "destination": "/index.html"
     }
   ]
