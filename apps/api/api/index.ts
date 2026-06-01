@@ -14,7 +14,10 @@ if (process.env['TURSO_DATABASE_URL']) {
     url: process.env['TURSO_DATABASE_URL'],
     authToken: process.env['TURSO_AUTH_TOKEN'],
   });
-  setDb(drizzle(client, { schema }) as Parameters<typeof setDb>[0]);
+  // LibSQLDatabase and BetterSQLite3Database are structurally incompatible at the
+  // type level (async vs sync mode) but share the same drizzle query API at runtime.
+  // The double cast through unknown is required — and safe — here.
+  setDb(drizzle(client, { schema }) as unknown as Parameters<typeof setDb>[0]);
 }
 
 const app = createApp();
