@@ -38,7 +38,7 @@ export function PostEditor({ initialPost }: PostEditorProps) {
   const [contentHtml, setContentHtml] = useState(initialPost?.contentHtml ?? '');
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt ?? '');
   const [slug, setSlug] = useState(initialPost?.slug ?? '');
-  const [categoryId, setCategoryId] = useState(initialPost?.categoryId ?? '');
+  const [categoryId, setCategoryId] = useState(initialPost?.categoryId ?? 'none');
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [seoTitle, setSeoTitle] = useState(initialPost?.seoTitle ?? '');
   const [seoDesc, setSeoDesc] = useState(initialPost?.seoDescription ?? '');
@@ -104,7 +104,7 @@ export function PostEditor({ initialPost }: PostEditorProps) {
       content,
       excerpt: excerpt || undefined,
       slug: slug || undefined,
-      categoryId: categoryId || undefined,
+      categoryId: categoryId === 'none' ? undefined : categoryId || undefined,
       tagIds: selectedTagIds,
       seoTitle: seoTitle || undefined,
       seoDescription: seoDesc || undefined,
@@ -232,7 +232,7 @@ export function PostEditor({ initialPost }: PostEditorProps) {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="none">None</SelectItem>
                     {categories?.map((cat) => (
                       <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                     ))}
