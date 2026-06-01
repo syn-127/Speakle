@@ -99,7 +99,8 @@ export async function listPosts(query: {
 }
 
 export async function getPost(idOrSlug: string) {
-  const isId = !idOrSlug.includes('-') || idOrSlug.length === 25;
+  // cuid2 IDs: long (>=20 chars) and purely alphanumeric. Slugs have hyphens or are short.
+  const isId = idOrSlug.length >= 20 && /^[a-z0-9]+$/.test(idOrSlug);
 
   const result = await db
     .select({

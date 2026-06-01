@@ -47381,7 +47381,7 @@ async function listPosts(query) {
   };
 }
 async function getPost(idOrSlug) {
-  const isId = !idOrSlug.includes("-") || idOrSlug.length === 25;
+  const isId = idOrSlug.length >= 20 && /^[a-z0-9]+$/.test(idOrSlug);
   const result = await db.select({
     post: posts,
     author: {
