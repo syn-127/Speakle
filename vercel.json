@@ -5,10 +5,6 @@
   "buildCommand": "pnpm --filter @speakle/web build && pnpm -w run bundle:api",
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/index"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

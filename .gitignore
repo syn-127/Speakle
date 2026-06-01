@@ -141,7 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
-api/index.mjs
+api/[...path].mjs
 
 # Allow pre-built workspace package dist/ directories
 !packages/shared/dist/
