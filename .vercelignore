@@ -1,0 +1,8 @@
+# Exclude TypeScript source from deployment — the esbuild bundle in api/index.mjs
+# already contains everything inlined. Deploying these individually causes Vercel's
+# @vercel/node to compile and run them separately, where @speakle/db symlinks
+# resolve to .ts source files that Node.js cannot execute.
+
+apps/api/src
+apps/api/dist
+packages
