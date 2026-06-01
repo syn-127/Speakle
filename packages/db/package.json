@@ -5,14 +5,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./src/index.ts",
+      "import": "./dist/index.js",
       "types": "./src/index.ts"
     },
-    "./schema": "./src/schema/index.ts",
-    "./client": "./src/client.ts"
+    "./schema": {
+      "import": "./dist/schema/index.js",
+      "types": "./src/schema/index.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./src/client.ts"
+    }
   },
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "studio": "drizzle-kit studio",

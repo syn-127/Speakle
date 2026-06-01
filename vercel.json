@@ -1,6 +1,6 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @speakle/web build && pnpm -w run bundle:api",
+  "buildCommand": "pnpm --filter @speakle/shared build && pnpm --filter @speakle/db build && pnpm --filter @speakle/ai build && pnpm --filter @speakle/web build && pnpm -w run bundle:api",
   "rewrites": [
     {
       "source": "/api/:path*",
