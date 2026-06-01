@@ -8,14 +8,25 @@ import {
   transcribeTextSchema,
   improveSeoSchema,
   continueWritingSchema,
+  type GeneratePostInput,
+  type ResearchInput,
+  type ImproveSeoInput,
+  type ContinueWritingInput,
 } from '@speakle/shared';
 import { authMiddleware } from '../../middleware/auth';
 import { getAIConfig, getTavilyKey } from '../../lib/settings';
 
+// Cast helper — @hono/zod-validator infers from one Zod instance while types in
+// @speakle/shared come from another. The runtime value is always correct;
+// this cast is purely a compile-time bridge between the two Zod instances.
+function validated<T>(v: unknown): T {
+  return v as T;
+}
+
 export const aiRouter = new Hono();
 
 aiRouter.post('/generate', authMiddleware, zValidator('json', generatePostSchema), async (c) => {
-  const input = c.req.valid('json');
+  const input = validated<GeneratePostInput>(c.req.valid('json'));
   const config = await getAIConfig();
   if (!config) return c.json({ error: 'AI provider not configured. Please add your API key in Settings > AI.' }, 400);
 
@@ -29,7 +40,7 @@ aiRouter.post('/generate', authMiddleware, zValidator('json', generatePostSchema
 });
 
 aiRouter.post('/research', authMiddleware, zValidator('json', researchSchema), async (c) => {
-  const input = c.req.valid('json');
+  const input = validated<ResearchInput>(c.req.valid('json'));
   const config = await getAIConfig();
   if (!config) return c.json({ error: 'AI provider not configured' }, 400);
 
@@ -45,7 +56,6 @@ aiRouter.post('/research', authMiddleware, zValidator('json', researchSchema), a
       input.provider ? { ...config, provider: input.provider } : config,
     );
 
-    // Send brief as first SSE event, then stream the post
     return streamText(c, async (stream_) => {
       await stream_.write(`data: ${JSON.stringify({ type: 'brief', data: brief })}\n\n`);
       for await (const chunk of stream.textStream) {
@@ -66,7 +76,6 @@ aiRouter.post('/transcribe', authMiddleware, async (c) => {
   const contentType = c.req.header('content-type') ?? '';
 
   if (contentType.includes('multipart/form-data')) {
-    // Audio file upload → Whisper transcription (OpenAI only)
     if (config.provider !== 'openai') {
       return c.json({ error: 'Audio transcription requires OpenAI provider with Whisper API' }, 400);
     }
@@ -91,7 +100,6 @@ aiRouter.post('/transcribe', authMiddleware, async (c) => {
     });
   }
 
-  // JSON body → polish mode
   const body = await c.req.json() as { text?: string; mode?: string };
   const parsed = transcribeTextSchema.safeParse(body);
   if (!parsed.success || !parsed.data.text) {
@@ -107,7 +115,7 @@ aiRouter.post('/transcribe', authMiddleware, async (c) => {
 });
 
 aiRouter.post('/improve-seo', authMiddleware, zValidator('json', improveSeoSchema), async (c) => {
-  const input = c.req.valid('json');
+  const input = validated<ImproveSeoInput>(c.req.valid('json'));
   const config = await getAIConfig();
   if (!config) return c.json({ error: 'AI provider not configured' }, 400);
 
@@ -116,7 +124,7 @@ aiRouter.post('/improve-seo', authMiddleware, zValidator('json', improveSeoSchem
 });
 
 aiRouter.post('/continue', authMiddleware, zValidator('json', continueWritingSchema), async (c) => {
-  const input = c.req.valid('json');
+  const input = validated<ContinueWritingInput>(c.req.valid('json'));
   const config = await getAIConfig();
   if (!config) return c.json({ error: 'AI provider not configured' }, 400);
 

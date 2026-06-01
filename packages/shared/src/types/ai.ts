@@ -12,11 +12,27 @@ export interface GeneratePostInput {
   length?: 'short' | 'medium' | 'long';
   keywords?: string[];
   outline?: string;
+  provider?: AIProvider;
 }
 
 export interface ResearchInput {
   topic: string;
   depth?: 'standard' | 'deep';
+  provider?: AIProvider;
+}
+
+export interface ImproveSeoInput {
+  postId?: string;
+  title: string;
+  content: string;
+  keywords?: string[];
+  provider?: AIProvider;
+}
+
+export interface ContinueWritingInput {
+  context: string;
+  instruction?: string;
+  provider?: AIProvider;
 }
 
 export interface ResearchSource {
