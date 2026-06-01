@@ -5,6 +5,7 @@ import { db, categories, tags } from '@speakle/db';
 import { eq, asc } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 import { authMiddleware } from '../../middleware/auth';
+import { dbv } from '../../lib/db-helpers';
 
 const categorySchema = z.object({
   name: z.string().min(1).max(100),
@@ -53,7 +54,7 @@ categoriesRouter.put('/:id', authMiddleware, zValidator('json', categorySchema.p
   const id = c.req.param('id');
   const input = c.req.valid('json');
   const patch = { ...input, updatedAt: Date.now() };
-  const [cat] = await db.update(categories).set(patch).where(eq(categories.id, id)).returning();
+  const [cat] = await db.update(categories).set(dbv(patch)).where(eq(categories.id, id)).returning();
 
   if (!cat) return c.json({ error: 'Category not found' }, 404);
   return c.json(cat);

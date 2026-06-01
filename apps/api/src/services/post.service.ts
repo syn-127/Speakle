@@ -1,6 +1,7 @@
 import { db, posts, postTags, tags, categories, users, postRevisions } from '@speakle/db';
 import { eq, desc, and, or, like, inArray, sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
+import { dbv } from '../lib/db-helpers';
 import type { CreatePostInput, UpdatePostInput } from '@speakle/shared';
 
 function generateSlug(title: string): string {
@@ -194,7 +195,7 @@ export async function updatePost(id: string, input: UpdatePostInput) {
 
   const [updated] = await db
     .update(posts)
-    .set(updates)
+    .set(dbv(updates))
     .where(eq(posts.id, id))
     .returning();
 
@@ -209,7 +210,7 @@ export async function updatePost(id: string, input: UpdatePostInput) {
 }
 
 export async function deletePost(id: string) {
-  await db.update(posts).set({ status: 'trash', updatedAt: Date.now() }).where(eq(posts.id, id));
+  await db.update(posts).set(dbv({ status: 'trash', updatedAt: Date.now() })).where(eq(posts.id, id));
 }
 
 export async function permanentDeletePost(id: string) {

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { db, plugins, themes } from '@speakle/db';
 import { eq, asc } from 'drizzle-orm';
 import { authMiddleware, adminOnly } from '../../middleware/auth';
+import { dbv } from '../../lib/db-helpers';
 
 export const pluginsRouter = new Hono();
 
@@ -16,7 +17,7 @@ pluginsRouter.post('/:id/activate', authMiddleware, adminOnly, async (c) => {
   const id = c.req.param('id');
   const [plugin] = await db
     .update(plugins)
-    .set({ isActive: true, updatedAt: Date.now() })
+    .set(dbv({ isActive: true, updatedAt: Date.now() }))
     .where(eq(plugins.id, id))
     .returning();
   if (!plugin) return c.json({ error: 'Plugin not found' }, 404);
@@ -27,7 +28,7 @@ pluginsRouter.post('/:id/deactivate', authMiddleware, adminOnly, async (c) => {
   const id = c.req.param('id');
   const [plugin] = await db
     .update(plugins)
-    .set({ isActive: false, updatedAt: Date.now() })
+    .set(dbv({ isActive: false, updatedAt: Date.now() }))
     .where(eq(plugins.id, id))
     .returning();
   if (!plugin) return c.json({ error: 'Plugin not found' }, 404);
@@ -44,7 +45,7 @@ pluginsRouter.put(
     const config = c.req.valid('json');
     const [plugin] = await db
       .update(plugins)
-      .set({ config: JSON.stringify(config), updatedAt: Date.now() })
+      .set(dbv({ config: JSON.stringify(config), updatedAt: Date.now() }))
       .where(eq(plugins.id, id))
       .returning();
     if (!plugin) return c.json({ error: 'Plugin not found' }, 404);
@@ -67,11 +68,10 @@ themesRouter.get('/', authMiddleware, async (c) => {
 
 themesRouter.post('/:id/activate', authMiddleware, adminOnly, async (c) => {
   const id = c.req.param('id');
-  // Deactivate all themes first
-  await db.update(themes).set({ isActive: false });
+  await db.update(themes).set(dbv({ isActive: false }));
   const [theme] = await db
     .update(themes)
-    .set({ isActive: true })
+    .set(dbv({ isActive: true }))
     .where(eq(themes.id, id))
     .returning();
   if (!theme) return c.json({ error: 'Theme not found' }, 404);
@@ -88,7 +88,7 @@ themesRouter.put(
     const config = c.req.valid('json');
     const [theme] = await db
       .update(themes)
-      .set({ config: JSON.stringify(config) })
+      .set(dbv({ config: JSON.stringify(config) }))
       .where(eq(themes.id, id))
       .returning();
     if (!theme) return c.json({ error: 'Theme not found' }, 404);

@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm';
 import { loginSchema, changePasswordSchema } from '@speakle/shared';
 import { createSession, deleteSession, verifyPassword, hashPassword } from '../../lib/auth';
 import { authMiddleware } from '../../middleware/auth';
+import { dbv } from '../../lib/db-helpers';
 
 export const authRouter = new Hono();
 
@@ -64,7 +65,7 @@ authRouter.post('/change-password', authMiddleware, zValidator('json', changePas
   }
 
   const newHash = await hashPassword(newPassword);
-  await db.update(users).set({ passwordHash: newHash, updatedAt: Date.now() }).where(eq(users.id, user.id));
+  await db.update(users).set(dbv({ passwordHash: newHash, updatedAt: Date.now() })).where(eq(users.id, user.id));
 
   return c.json({ success: true });
 });

@@ -5,6 +5,7 @@ import { db, media } from '@speakle/db';
 import { eq, desc, like, and } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 import { authMiddleware } from '../../middleware/auth';
+import { dbv } from '../../lib/db-helpers';
 import { writeFile, mkdir, unlink } from 'fs/promises';
 import { join, extname } from 'path';
 import { existsSync } from 'fs';
@@ -111,7 +112,7 @@ mediaRouter.put(
     const id = c.req.param('id');
     const input = c.req.valid('json');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle dual-instance peer dep mismatch
-    const [updated] = await db.update(media).set({ altText: input.altText, caption: input.caption } as any).where(eq(media.id, id)).returning();
+    const [updated] = await db.update(media).set(dbv({ altText: input.altText, caption: input.caption })).where(eq(media.id, id)).returning();
     if (!updated) return c.json({ error: 'Not found' }, 404);
     return c.json(updated);
   },

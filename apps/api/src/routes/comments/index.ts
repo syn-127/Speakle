@@ -5,6 +5,7 @@ import { db, comments } from '@speakle/db';
 import { eq, desc, and } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 import { authMiddleware } from '../../middleware/auth';
+import { dbv } from '../../lib/db-helpers';
 
 const createCommentSchema = z.object({
   postId: z.string(),
@@ -67,7 +68,7 @@ commentsRouter.post('/', zValidator('json', createCommentSchema), async (c) => {
 commentsRouter.put('/:id/approve', authMiddleware, async (c) => {
   const [comment] = await db
     .update(comments)
-    .set({ status: 'approved', updatedAt: Date.now() })
+    .set(dbv({ status: 'approved', updatedAt: Date.now() }))
     .where(eq(comments.id, c.req.param('id')))
     .returning();
   if (!comment) return c.json({ error: 'Not found' }, 404);
@@ -77,7 +78,7 @@ commentsRouter.put('/:id/approve', authMiddleware, async (c) => {
 commentsRouter.put('/:id/spam', authMiddleware, async (c) => {
   const [comment] = await db
     .update(comments)
-    .set({ status: 'spam', updatedAt: Date.now() })
+    .set(dbv({ status: 'spam', updatedAt: Date.now() }))
     .where(eq(comments.id, c.req.param('id')))
     .returning();
   if (!comment) return c.json({ error: 'Not found' }, 404);
