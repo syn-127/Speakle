@@ -110,8 +110,8 @@ mediaRouter.put(
   async (c) => {
     const id = c.req.param('id');
     const input = c.req.valid('json');
-    const patch = { altText: input.altText, caption: input.caption };
-    const [updated] = await db.update(media).set(patch).where(eq(media.id, id)).returning();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle dual-instance peer dep mismatch
+    const [updated] = await db.update(media).set({ altText: input.altText, caption: input.caption } as any).where(eq(media.id, id)).returning();
     if (!updated) return c.json({ error: 'Not found' }, 404);
     return c.json(updated);
   },
