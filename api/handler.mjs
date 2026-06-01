@@ -7361,7 +7361,7 @@ var require_request = __commonJS({
     var { headerNameLowerCasedRecord } = require_constants();
     var invalidPathRegex = /[^\u0021-\u00ff]/;
     var kHandler = /* @__PURE__ */ Symbol("handler");
-    var Request2 = class {
+    var Request3 = class {
       constructor(origin, {
         path: path2,
         method,
@@ -7663,7 +7663,7 @@ var require_request = __commonJS({
         request.headers.push(key, val);
       }
     }
-    module.exports = Request2;
+    module.exports = Request3;
   }
 });
 
@@ -8798,7 +8798,7 @@ var require_constants3 = __commonJS({
       /** @type {const} */
       ["omit", "same-origin", "include"]
     );
-    var requestCache = (
+    var requestCache2 = (
       /** @type {const} */
       [
         "default",
@@ -8860,7 +8860,7 @@ var require_constants3 = __commonJS({
       requestRedirect,
       requestMode,
       requestCredentials,
-      requestCache,
+      requestCache: requestCache2,
       redirectStatus,
       corsSafeListedMethods,
       nullBodyStatus,
@@ -9700,11 +9700,11 @@ var require_util2 = __commonJS({
     var { isUint8Array } = __require("node:util/types");
     var { webidl } = require_webidl();
     var supportedHashes = [];
-    var crypto2;
+    var crypto3;
     try {
-      crypto2 = __require("node:crypto");
+      crypto3 = __require("node:crypto");
       const possibleRelevantHashes = ["sha256", "sha384", "sha512"];
-      supportedHashes = crypto2.getHashes().filter((hash2) => possibleRelevantHashes.includes(hash2));
+      supportedHashes = crypto3.getHashes().filter((hash2) => possibleRelevantHashes.includes(hash2));
     } catch {
     }
     function responseURL(response) {
@@ -9977,7 +9977,7 @@ var require_util2 = __commonJS({
       }
     }
     function bytesMatch(bytes2, metadataList) {
-      if (crypto2 === void 0) {
+      if (crypto3 === void 0) {
         return true;
       }
       const parsedMetadata = parseMetadata(metadataList);
@@ -9992,7 +9992,7 @@ var require_util2 = __commonJS({
       for (const item of metadata) {
         const algorithm = item.algo;
         const expectedValue = item.hash;
-        let actualValue = crypto2.createHash(algorithm).update(bytes2).digest("base64");
+        let actualValue = crypto3.createHash(algorithm).update(bytes2).digest("base64");
         if (actualValue[actualValue.length - 1] === "=") {
           if (actualValue[actualValue.length - 2] === "=") {
             actualValue = actualValue.slice(0, -2);
@@ -11056,8 +11056,8 @@ var require_body = __commonJS({
     var { multipartFormDataParser } = require_formdata_parser();
     var random;
     try {
-      const crypto2 = __require("node:crypto");
-      random = (max) => crypto2.randomInt(0, max);
+      const crypto3 = __require("node:crypto");
+      random = (max) => crypto3.randomInt(0, max);
     } catch {
       random = (max) => Math.floor(Math.random(max));
     }
@@ -13133,7 +13133,7 @@ var require_client = __commonJS({
     var http = __require("node:http");
     var util2 = require_util();
     var { channels } = require_diagnostics();
-    var Request2 = require_request();
+    var Request3 = require_request();
     var DispatcherBase = require_dispatcher_base();
     var {
       InvalidArgumentError: InvalidArgumentError3,
@@ -13375,7 +13375,7 @@ var require_client = __commonJS({
       }
       [kDispatch](opts, handler) {
         const origin = opts.origin || this[kUrl].origin;
-        const request = new Request2(origin, opts, handler);
+        const request = new Request3(origin, opts, handler);
         this[kQueue].push(request);
         if (this[kResuming]) {
         } else if (util2.bodyLength(request.body) == null && util2.isIterable(request.body)) {
@@ -14898,7 +14898,7 @@ var require_readable = __commonJS({
   "node_modules/.pnpm/undici@6.26.0/node_modules/undici/lib/api/readable.js"(exports, module) {
     "use strict";
     var assert = __require("node:assert");
-    var { Readable: Readable3 } = __require("node:stream");
+    var { Readable: Readable4 } = __require("node:stream");
     var { RequestAbortedError, NotSupportedError, InvalidArgumentError: InvalidArgumentError3, AbortError } = require_errors();
     var util2 = require_util();
     var { ReadableStreamFrom: ReadableStreamFrom2 } = require_util();
@@ -14910,7 +14910,7 @@ var require_readable = __commonJS({
     var kContentLength = /* @__PURE__ */ Symbol("kContentLength");
     var noop2 = () => {
     };
-    var BodyReadable = class extends Readable3 {
+    var BodyReadable = class extends Readable4 {
       constructor({
         resume,
         abort,
@@ -15252,7 +15252,7 @@ var require_api_request = __commonJS({
   "node_modules/.pnpm/undici@6.26.0/node_modules/undici/lib/api/api-request.js"(exports, module) {
     "use strict";
     var assert = __require("node:assert");
-    var { Readable: Readable3 } = require_readable();
+    var { Readable: Readable4 } = require_readable();
     var { InvalidArgumentError: InvalidArgumentError3, RequestAbortedError } = require_errors();
     var util2 = require_util();
     var { getResolveErrorBodyCallback } = require_util3();
@@ -15347,7 +15347,7 @@ var require_api_request = __commonJS({
         const parsedHeaders = responseHeaders === "raw" ? util2.parseHeaders(rawHeaders) : headers;
         const contentType = parsedHeaders["content-type"];
         const contentLength = parsedHeaders["content-length"];
-        const res = new Readable3({
+        const res = new Readable4({
           resume,
           abort,
           contentType,
@@ -15662,7 +15662,7 @@ var require_api_pipeline = __commonJS({
   "node_modules/.pnpm/undici@6.26.0/node_modules/undici/lib/api/api-pipeline.js"(exports, module) {
     "use strict";
     var {
-      Readable: Readable3,
+      Readable: Readable4,
       Duplex,
       PassThrough
     } = __require("node:stream");
@@ -15676,7 +15676,7 @@ var require_api_pipeline = __commonJS({
     var { addSignal, removeSignal } = require_abort_signal();
     var assert = __require("node:assert");
     var kResume = /* @__PURE__ */ Symbol("resume");
-    var PipelineRequest = class extends Readable3 {
+    var PipelineRequest = class extends Readable4 {
       constructor() {
         super({ autoDestroy: true });
         this[kResume] = null;
@@ -15693,7 +15693,7 @@ var require_api_pipeline = __commonJS({
         callback(err);
       }
     };
-    var PipelineResponse = class extends Readable3 {
+    var PipelineResponse = class extends Readable4 {
       constructor(resume) {
         super({ autoDestroy: true });
         this[kResume] = resume;
@@ -16120,7 +16120,7 @@ var require_mock_utils = __commonJS({
     var { STATUS_CODES } = __require("node:http");
     var {
       types: {
-        isPromise
+        isPromise: isPromise2
       }
     } = __require("node:util");
     function matchValue(match2, value) {
@@ -16320,7 +16320,7 @@ var require_mock_utils = __commonJS({
       function handleReply(mockDispatches, _data = data) {
         const optsHeaders = Array.isArray(opts.headers) ? buildHeadersFromArray(opts.headers) : opts.headers;
         const body = typeof _data === "function" ? _data({ ...opts, headers: optsHeaders }) : _data;
-        if (isPromise(body)) {
+        if (isPromise2(body)) {
           body.then((newData) => handleReply(mockDispatches, newData));
           return;
         }
@@ -17853,7 +17853,7 @@ var require_response = __commonJS({
     var assert = __require("node:assert");
     var { types } = __require("node:util");
     var textEncoder = new TextEncoder("utf-8");
-    var Response2 = class _Response {
+    var Response3 = class _Response2 {
       // Creates network error Response.
       static error() {
         const responseObject = fromInnerResponse(makeNetworkError(), "immutable");
@@ -17916,12 +17916,12 @@ var require_response = __commonJS({
       }
       // Returns response’s type, e.g., "cors".
       get type() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].type;
       }
       // Returns response’s URL, if it has one; otherwise the empty string.
       get url() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         const urlList = this[kState].urlList;
         const url = urlList[urlList.length - 1] ?? null;
         if (url === null) {
@@ -17931,40 +17931,40 @@ var require_response = __commonJS({
       }
       // Returns whether response was obtained through a redirect.
       get redirected() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].urlList.length > 1;
       }
       // Returns response’s status.
       get status() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].status;
       }
       // Returns whether response’s status is an ok status.
       get ok() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].status >= 200 && this[kState].status <= 299;
       }
       // Returns response’s status message.
       get statusText() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].statusText;
       }
       // Returns response’s headers as Headers.
       get headers() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kHeaders];
       }
       get body() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return this[kState].body ? this[kState].body.stream : null;
       }
       get bodyUsed() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         return !!this[kState].body && util2.isDisturbed(this[kState].body.stream);
       }
       // Returns a clone of response.
       clone() {
-        webidl.brandCheck(this, _Response);
+        webidl.brandCheck(this, _Response2);
         if (bodyUnusable(this)) {
           throw webidl.errors.exception({
             header: "Response.clone",
@@ -17996,8 +17996,8 @@ var require_response = __commonJS({
         return `Response ${nodeUtil.formatWithOptions(options, properties)}`;
       }
     };
-    mixinBody(Response2);
-    Object.defineProperties(Response2.prototype, {
+    mixinBody(Response3);
+    Object.defineProperties(Response3.prototype, {
       type: kEnumerableProperty,
       url: kEnumerableProperty,
       status: kEnumerableProperty,
@@ -18013,7 +18013,7 @@ var require_response = __commonJS({
         configurable: true
       }
     });
-    Object.defineProperties(Response2, {
+    Object.defineProperties(Response3, {
       json: kEnumerableProperty,
       redirect: kEnumerableProperty,
       error: kEnumerableProperty
@@ -18146,7 +18146,7 @@ var require_response = __commonJS({
       }
     }
     function fromInnerResponse(innerResponse, guard) {
-      const response = new Response2(kConstruct);
+      const response = new Response3(kConstruct);
       response[kState] = innerResponse;
       response[kHeaders] = new Headers2(kConstruct);
       setHeadersList(response[kHeaders], innerResponse.headersList);
@@ -18214,7 +18214,7 @@ var require_response = __commonJS({
       makeResponse,
       makeAppropriateNetworkError,
       filterResponse,
-      Response: Response2,
+      Response: Response3,
       cloneResponse,
       fromInnerResponse
     };
@@ -18284,7 +18284,7 @@ var require_request2 = __commonJS({
       requestRedirect,
       requestMode,
       requestCredentials,
-      requestCache,
+      requestCache: requestCache2,
       requestDuplex
     } = require_constants3();
     var { kEnumerableProperty, normalizedMethodRecordsBase, normalizedMethodRecords } = util2;
@@ -18324,7 +18324,7 @@ var require_request2 = __commonJS({
       }
     }
     var patchMethodWarning = false;
-    var Request2 = class _Request {
+    var Request3 = class _Request {
       // https://fetch.spec.whatwg.org/#dom-request
       constructor(input, init = {}) {
         webidl.util.markAsUncloneable(this);
@@ -18771,7 +18771,7 @@ var require_request2 = __commonJS({
         return `Request ${nodeUtil.formatWithOptions(options, properties)}`;
       }
     };
-    mixinBody(Request2);
+    mixinBody(Request3);
     function makeRequest(init) {
       return {
         method: init.method ?? "GET",
@@ -18815,14 +18815,14 @@ var require_request2 = __commonJS({
       };
     }
     function cloneRequest(request) {
-      const newRequest = makeRequest({ ...request, body: null });
+      const newRequest2 = makeRequest({ ...request, body: null });
       if (request.body != null) {
-        newRequest.body = cloneBody(newRequest, request.body);
+        newRequest2.body = cloneBody(newRequest2, request.body);
       }
-      return newRequest;
+      return newRequest2;
     }
     function fromInnerRequest(innerRequest, signal, guard) {
-      const request = new Request2(kConstruct);
+      const request = new Request3(kConstruct);
       request[kState] = innerRequest;
       request[kSignal] = signal;
       request[kHeaders] = new Headers2(kConstruct);
@@ -18830,7 +18830,7 @@ var require_request2 = __commonJS({
       setHeadersGuard(request[kHeaders], guard);
       return request;
     }
-    Object.defineProperties(Request2.prototype, {
+    Object.defineProperties(Request3.prototype, {
       method: kEnumerableProperty,
       url: kEnumerableProperty,
       headers: kEnumerableProperty,
@@ -18857,13 +18857,13 @@ var require_request2 = __commonJS({
       }
     });
     webidl.converters.Request = webidl.interfaceConverter(
-      Request2
+      Request3
     );
     webidl.converters.RequestInfo = function(V, prefix, argument) {
       if (typeof V === "string") {
         return webidl.converters.USVString(V, prefix, argument);
       }
-      if (V instanceof Request2) {
+      if (V instanceof Request3) {
         return webidl.converters.Request(V, prefix, argument);
       }
       return webidl.converters.USVString(V, prefix, argument);
@@ -18912,7 +18912,7 @@ var require_request2 = __commonJS({
         key: "cache",
         converter: webidl.converters.DOMString,
         // https://fetch.spec.whatwg.org/#requestcache
-        allowedValues: requestCache
+        allowedValues: requestCache2
       },
       {
         key: "redirect",
@@ -18954,7 +18954,7 @@ var require_request2 = __commonJS({
         converter: webidl.converters.any
       }
     ]);
-    module.exports = { Request: Request2, makeRequest, fromInnerRequest, cloneRequest };
+    module.exports = { Request: Request3, makeRequest, fromInnerRequest, cloneRequest };
   }
 });
 
@@ -18970,7 +18970,7 @@ var require_fetch = __commonJS({
       fromInnerResponse
     } = require_response();
     var { HeadersList } = require_headers();
-    var { Request: Request2, cloneRequest } = require_request2();
+    var { Request: Request3, cloneRequest } = require_request2();
     var zlib = __require("node:zlib");
     var {
       bytesMatch,
@@ -19018,7 +19018,7 @@ var require_fetch = __commonJS({
       subresourceSet
     } = require_constants3();
     var EE = __require("node:events");
-    var { Readable: Readable3, pipeline, finished } = __require("node:stream");
+    var { Readable: Readable4, pipeline, finished } = __require("node:stream");
     var { addAbortListener, isErrored, isReadable, bufferToLowerCasedHeaderName } = require_util();
     var { dataURLProcessor, serializeAMimeType, minimizeSupportedMimeType } = require_data_url();
     var { getGlobalDispatcher } = require_global2();
@@ -19065,7 +19065,7 @@ var require_fetch = __commonJS({
       let p = createDeferredPromise();
       let requestObject;
       try {
-        requestObject = new Request2(input, init);
+        requestObject = new Request3(input, init);
       } catch (e) {
         p.reject(e);
         return p.promise;
@@ -19919,7 +19919,7 @@ var require_fetch = __commonJS({
                 headersList.append(bufferToLowerCasedHeaderName(rawHeaders[i]), rawHeaders[i + 1].toString("latin1"), true);
               }
               location = headersList.get("location", true);
-              this.body = new Readable3({ read: resume });
+              this.body = new Readable4({ read: resume });
               const decoders = [];
               const willFollow = location && request.redirect === "follow" && redirectStatusSet.has(status);
               if (request.method !== "HEAD" && request.method !== "CONNECT" && !nullBodyStatus.includes(status) && !willFollow) {
@@ -20886,8 +20886,8 @@ var require_cache = __commonJS({
     var { urlEquals, getFieldValues } = require_util5();
     var { kEnumerableProperty, isDisturbed } = require_util();
     var { webidl } = require_webidl();
-    var { Response: Response2, cloneResponse, fromInnerResponse } = require_response();
-    var { Request: Request2, fromInnerRequest } = require_request2();
+    var { Response: Response3, cloneResponse, fromInnerResponse } = require_response();
+    var { Request: Request3, fromInnerRequest } = require_request2();
     var { kState } = require_symbols2();
     var { fetching } = require_fetch();
     var { urlIsHttpHttpsScheme, createDeferredPromise, readAllBytes } = require_util2();
@@ -20961,7 +20961,7 @@ var require_cache = __commonJS({
         }
         const fetchControllers = [];
         for (const request of requests) {
-          const r = new Request2(request)[kState];
+          const r = new Request3(request)[kState];
           if (!urlIsHttpHttpsScheme(r.url)) {
             throw webidl.errors.exception({
               header: prefix,
@@ -21045,10 +21045,10 @@ var require_cache = __commonJS({
         request = webidl.converters.RequestInfo(request, prefix, "request");
         response = webidl.converters.Response(response, prefix, "response");
         let innerRequest = null;
-        if (request instanceof Request2) {
+        if (request instanceof Request3) {
           innerRequest = request[kState];
         } else {
-          innerRequest = new Request2(request)[kState];
+          innerRequest = new Request3(request)[kState];
         }
         if (!urlIsHttpHttpsScheme(innerRequest.url) || innerRequest.method !== "GET") {
           throw webidl.errors.exception({
@@ -21126,14 +21126,14 @@ var require_cache = __commonJS({
         request = webidl.converters.RequestInfo(request, prefix, "request");
         options = webidl.converters.CacheQueryOptions(options, prefix, "options");
         let r = null;
-        if (request instanceof Request2) {
+        if (request instanceof Request3) {
           r = request[kState];
           if (r.method !== "GET" && !options.ignoreMethod) {
             return false;
           }
         } else {
           assert(typeof request === "string");
-          r = new Request2(request)[kState];
+          r = new Request3(request)[kState];
         }
         const operations = [];
         const operation = {
@@ -21172,13 +21172,13 @@ var require_cache = __commonJS({
         options = webidl.converters.CacheQueryOptions(options, prefix, "options");
         let r = null;
         if (request !== void 0) {
-          if (request instanceof Request2) {
+          if (request instanceof Request3) {
             r = request[kState];
             if (r.method !== "GET" && !options.ignoreMethod) {
               return [];
             }
           } else if (typeof request === "string") {
-            r = new Request2(request)[kState];
+            r = new Request3(request)[kState];
           }
         }
         const promise = createDeferredPromise();
@@ -21344,13 +21344,13 @@ var require_cache = __commonJS({
       #internalMatchAll(request, options, maxResponses = Infinity) {
         let r = null;
         if (request !== void 0) {
-          if (request instanceof Request2) {
+          if (request instanceof Request3) {
             r = request[kState];
             if (r.method !== "GET" && !options.ignoreMethod) {
               return [];
             }
           } else if (typeof request === "string") {
-            r = new Request2(request)[kState];
+            r = new Request3(request)[kState];
           }
         }
         const responses = [];
@@ -21413,7 +21413,7 @@ var require_cache = __commonJS({
         converter: webidl.converters.DOMString
       }
     ]);
-    webidl.converters.Response = webidl.interfaceConverter(Response2);
+    webidl.converters.Response = webidl.interfaceConverter(Response3);
     webidl.converters["sequence<RequestInfo>"] = webidl.sequenceConverter(
       webidl.converters.RequestInfo
     );
@@ -22504,13 +22504,13 @@ var require_frame = __commonJS({
     "use strict";
     var { maxUnsigned16Bit } = require_constants5();
     var BUFFER_SIZE = 16386;
-    var crypto2;
+    var crypto3;
     var buffer = null;
     var bufIdx = BUFFER_SIZE;
     try {
-      crypto2 = __require("node:crypto");
+      crypto3 = __require("node:crypto");
     } catch {
-      crypto2 = {
+      crypto3 = {
         // not full compatibility, but minimum.
         randomFillSync: function randomFillSync(buffer2, _offset, _size) {
           for (let i = 0; i < buffer2.length; ++i) {
@@ -22523,7 +22523,7 @@ var require_frame = __commonJS({
     function generateMask() {
       if (bufIdx === BUFFER_SIZE) {
         bufIdx = 0;
-        crypto2.randomFillSync(buffer ??= Buffer.allocUnsafe(BUFFER_SIZE), 0, BUFFER_SIZE);
+        crypto3.randomFillSync(buffer ??= Buffer.allocUnsafe(BUFFER_SIZE), 0, BUFFER_SIZE);
       }
       return [buffer[bufIdx++], buffer[bufIdx++], buffer[bufIdx++], buffer[bufIdx++]];
     }
@@ -22595,9 +22595,9 @@ var require_connection = __commonJS({
     var { Headers: Headers2, getHeadersList } = require_headers();
     var { getDecodeSplit } = require_util2();
     var { WebsocketFrameSend } = require_frame();
-    var crypto2;
+    var crypto3;
     try {
-      crypto2 = __require("node:crypto");
+      crypto3 = __require("node:crypto");
     } catch {
     }
     function establishWebSocketConnection(url, protocols, client, ws, onEstablish, options) {
@@ -22617,7 +22617,7 @@ var require_connection = __commonJS({
         const headersList = getHeadersList(new Headers2(options.headers));
         request.headersList = headersList;
       }
-      const keyValue = crypto2.randomBytes(16).toString("base64");
+      const keyValue = crypto3.randomBytes(16).toString("base64");
       request.headersList.append("sec-websocket-key", keyValue);
       request.headersList.append("sec-websocket-version", "13");
       for (const protocol of protocols) {
@@ -22647,7 +22647,7 @@ var require_connection = __commonJS({
             return;
           }
           const secWSAccept = response.headersList.get("Sec-WebSocket-Accept");
-          const digest = crypto2.createHash("sha1").update(keyValue + uid).digest("base64");
+          const digest = crypto3.createHash("sha1").update(keyValue + uid).digest("base64");
           if (secWSAccept !== digest) {
             failWebsocketConnection(ws, "Incorrect hash received in Sec-WebSocket-Accept header.");
             return;
@@ -24391,7 +24391,7 @@ var require_throttleit = __commonJS({
 });
 
 // node_modules/.pnpm/@vercel+blob@2.4.0/node_modules/@vercel/blob/dist/chunk-3D2SZ6M2.js
-import { Readable as Readable2 } from "stream";
+import { Readable as Readable3 } from "stream";
 async function toReadableStream(value) {
   if (value instanceof ReadableStream) {
     return value;
@@ -24400,7 +24400,7 @@ async function toReadableStream(value) {
     return value.stream();
   }
   if (isNodeJsReadableStream(value)) {
-    return Readable2.toWeb(value);
+    return Readable3.toWeb(value);
   }
   let streamValue;
   if (value instanceof ArrayBuffer) {
@@ -26835,13 +26835,13 @@ var uuid4;
 var init_uuid = __esm({
   "node_modules/.pnpm/openai@6.39.1_ws@8.21.0_zod@3.25.76/node_modules/openai/internal/utils/uuid.mjs"() {
     uuid4 = function() {
-      const { crypto: crypto2 } = globalThis;
-      if (crypto2?.randomUUID) {
-        uuid4 = crypto2.randomUUID.bind(crypto2);
-        return crypto2.randomUUID();
+      const { crypto: crypto3 } = globalThis;
+      if (crypto3?.randomUUID) {
+        uuid4 = crypto3.randomUUID.bind(crypto3);
+        return crypto3.randomUUID();
       }
       const u8 = new Uint8Array(1);
-      const randomByte = crypto2 ? () => crypto2.getRandomValues(u8)[0] : () => Math.random() * 255 & 255;
+      const randomByte = crypto3 ? () => crypto3.getRandomValues(u8)[0] : () => Math.random() * 255 & 255;
       return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (+c ^ randomByte() & 15 >> +c / 4).toString(16));
     };
   }
@@ -38145,9 +38145,625 @@ var init_libsql = __esm({
   }
 });
 
-// node_modules/.pnpm/hono@4.12.23/node_modules/hono/dist/adapter/vercel/handler.js
-var handle = (app2) => (req) => {
-  return app2.fetch(req);
+// node_modules/.pnpm/@hono+node-server@1.19.14_hono@4.12.23/node_modules/@hono/node-server/dist/index.mjs
+import { Http2ServerRequest as Http2ServerRequest2, constants as h2constants } from "http2";
+import { Http2ServerRequest } from "http2";
+import { Readable } from "stream";
+import crypto2 from "crypto";
+var RequestError = class extends Error {
+  constructor(message, options) {
+    super(message, options);
+    this.name = "RequestError";
+  }
+};
+var toRequestError = (e) => {
+  if (e instanceof RequestError) {
+    return e;
+  }
+  return new RequestError(e.message, { cause: e });
+};
+var GlobalRequest = global.Request;
+var Request2 = class extends GlobalRequest {
+  constructor(input, options) {
+    if (typeof input === "object" && getRequestCache in input) {
+      input = input[getRequestCache]();
+    }
+    if (typeof options?.body?.getReader !== "undefined") {
+      ;
+      options.duplex ??= "half";
+    }
+    super(input, options);
+  }
+};
+var newHeadersFromIncoming = (incoming) => {
+  const headerRecord = [];
+  const rawHeaders = incoming.rawHeaders;
+  for (let i = 0; i < rawHeaders.length; i += 2) {
+    const { [i]: key, [i + 1]: value } = rawHeaders;
+    if (key.charCodeAt(0) !== /*:*/
+    58) {
+      headerRecord.push([key, value]);
+    }
+  }
+  return new Headers(headerRecord);
+};
+var wrapBodyStream = /* @__PURE__ */ Symbol("wrapBodyStream");
+var newRequestFromIncoming = (method, url, headers, incoming, abortController) => {
+  const init = {
+    method,
+    headers,
+    signal: abortController.signal
+  };
+  if (method === "TRACE") {
+    init.method = "GET";
+    const req = new Request2(url, init);
+    Object.defineProperty(req, "method", {
+      get() {
+        return "TRACE";
+      }
+    });
+    return req;
+  }
+  if (!(method === "GET" || method === "HEAD")) {
+    if ("rawBody" in incoming && incoming.rawBody instanceof Buffer) {
+      init.body = new ReadableStream({
+        start(controller) {
+          controller.enqueue(incoming.rawBody);
+          controller.close();
+        }
+      });
+    } else if (incoming[wrapBodyStream]) {
+      let reader;
+      init.body = new ReadableStream({
+        async pull(controller) {
+          try {
+            reader ||= Readable.toWeb(incoming).getReader();
+            const { done, value } = await reader.read();
+            if (done) {
+              controller.close();
+            } else {
+              controller.enqueue(value);
+            }
+          } catch (error) {
+            controller.error(error);
+          }
+        }
+      });
+    } else {
+      init.body = Readable.toWeb(incoming);
+    }
+  }
+  return new Request2(url, init);
+};
+var getRequestCache = /* @__PURE__ */ Symbol("getRequestCache");
+var requestCache = /* @__PURE__ */ Symbol("requestCache");
+var incomingKey = /* @__PURE__ */ Symbol("incomingKey");
+var urlKey = /* @__PURE__ */ Symbol("urlKey");
+var headersKey = /* @__PURE__ */ Symbol("headersKey");
+var abortControllerKey = /* @__PURE__ */ Symbol("abortControllerKey");
+var getAbortController = /* @__PURE__ */ Symbol("getAbortController");
+var requestPrototype = {
+  get method() {
+    return this[incomingKey].method || "GET";
+  },
+  get url() {
+    return this[urlKey];
+  },
+  get headers() {
+    return this[headersKey] ||= newHeadersFromIncoming(this[incomingKey]);
+  },
+  [getAbortController]() {
+    this[getRequestCache]();
+    return this[abortControllerKey];
+  },
+  [getRequestCache]() {
+    this[abortControllerKey] ||= new AbortController();
+    return this[requestCache] ||= newRequestFromIncoming(
+      this.method,
+      this[urlKey],
+      this.headers,
+      this[incomingKey],
+      this[abortControllerKey]
+    );
+  }
+};
+[
+  "body",
+  "bodyUsed",
+  "cache",
+  "credentials",
+  "destination",
+  "integrity",
+  "mode",
+  "redirect",
+  "referrer",
+  "referrerPolicy",
+  "signal",
+  "keepalive"
+].forEach((k) => {
+  Object.defineProperty(requestPrototype, k, {
+    get() {
+      return this[getRequestCache]()[k];
+    }
+  });
+});
+["arrayBuffer", "blob", "clone", "formData", "json", "text"].forEach((k) => {
+  Object.defineProperty(requestPrototype, k, {
+    value: function() {
+      return this[getRequestCache]()[k]();
+    }
+  });
+});
+Object.defineProperty(requestPrototype, /* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom"), {
+  value: function(depth, options, inspectFn) {
+    const props = {
+      method: this.method,
+      url: this.url,
+      headers: this.headers,
+      nativeRequest: this[requestCache]
+    };
+    return `Request (lightweight) ${inspectFn(props, { ...options, depth: depth == null ? null : depth - 1 })}`;
+  }
+});
+Object.setPrototypeOf(requestPrototype, Request2.prototype);
+var newRequest = (incoming, defaultHostname) => {
+  const req = Object.create(requestPrototype);
+  req[incomingKey] = incoming;
+  const incomingUrl = incoming.url || "";
+  if (incomingUrl[0] !== "/" && // short-circuit for performance. most requests are relative URL.
+  (incomingUrl.startsWith("http://") || incomingUrl.startsWith("https://"))) {
+    if (incoming instanceof Http2ServerRequest) {
+      throw new RequestError("Absolute URL for :path is not allowed in HTTP/2");
+    }
+    try {
+      const url2 = new URL(incomingUrl);
+      req[urlKey] = url2.href;
+    } catch (e) {
+      throw new RequestError("Invalid absolute URL", { cause: e });
+    }
+    return req;
+  }
+  const host = (incoming instanceof Http2ServerRequest ? incoming.authority : incoming.headers.host) || defaultHostname;
+  if (!host) {
+    throw new RequestError("Missing host header");
+  }
+  let scheme;
+  if (incoming instanceof Http2ServerRequest) {
+    scheme = incoming.scheme;
+    if (!(scheme === "http" || scheme === "https")) {
+      throw new RequestError("Unsupported scheme");
+    }
+  } else {
+    scheme = incoming.socket && incoming.socket.encrypted ? "https" : "http";
+  }
+  const url = new URL(`${scheme}://${host}${incomingUrl}`);
+  if (url.hostname.length !== host.length && url.hostname !== host.replace(/:\d+$/, "")) {
+    throw new RequestError("Invalid host header");
+  }
+  req[urlKey] = url.href;
+  return req;
+};
+var responseCache = /* @__PURE__ */ Symbol("responseCache");
+var getResponseCache = /* @__PURE__ */ Symbol("getResponseCache");
+var cacheKey = /* @__PURE__ */ Symbol("cache");
+var GlobalResponse = global.Response;
+var Response2 = class _Response {
+  #body;
+  #init;
+  [getResponseCache]() {
+    delete this[cacheKey];
+    return this[responseCache] ||= new GlobalResponse(this.#body, this.#init);
+  }
+  constructor(body, init) {
+    let headers;
+    this.#body = body;
+    if (init instanceof _Response) {
+      const cachedGlobalResponse = init[responseCache];
+      if (cachedGlobalResponse) {
+        this.#init = cachedGlobalResponse;
+        this[getResponseCache]();
+        return;
+      } else {
+        this.#init = init.#init;
+        headers = new Headers(init.#init.headers);
+      }
+    } else {
+      this.#init = init;
+    }
+    if (typeof body === "string" || typeof body?.getReader !== "undefined" || body instanceof Blob || body instanceof Uint8Array) {
+      ;
+      this[cacheKey] = [init?.status || 200, body, headers || init?.headers];
+    }
+  }
+  get headers() {
+    const cache = this[cacheKey];
+    if (cache) {
+      if (!(cache[2] instanceof Headers)) {
+        cache[2] = new Headers(
+          cache[2] || { "content-type": "text/plain; charset=UTF-8" }
+        );
+      }
+      return cache[2];
+    }
+    return this[getResponseCache]().headers;
+  }
+  get status() {
+    return this[cacheKey]?.[0] ?? this[getResponseCache]().status;
+  }
+  get ok() {
+    const status = this.status;
+    return status >= 200 && status < 300;
+  }
+};
+["body", "bodyUsed", "redirected", "statusText", "trailers", "type", "url"].forEach((k) => {
+  Object.defineProperty(Response2.prototype, k, {
+    get() {
+      return this[getResponseCache]()[k];
+    }
+  });
+});
+["arrayBuffer", "blob", "clone", "formData", "json", "text"].forEach((k) => {
+  Object.defineProperty(Response2.prototype, k, {
+    value: function() {
+      return this[getResponseCache]()[k]();
+    }
+  });
+});
+Object.defineProperty(Response2.prototype, /* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom"), {
+  value: function(depth, options, inspectFn) {
+    const props = {
+      status: this.status,
+      headers: this.headers,
+      ok: this.ok,
+      nativeResponse: this[responseCache]
+    };
+    return `Response (lightweight) ${inspectFn(props, { ...options, depth: depth == null ? null : depth - 1 })}`;
+  }
+});
+Object.setPrototypeOf(Response2, GlobalResponse);
+Object.setPrototypeOf(Response2.prototype, GlobalResponse.prototype);
+async function readWithoutBlocking(readPromise) {
+  return Promise.race([readPromise, Promise.resolve().then(() => Promise.resolve(void 0))]);
+}
+function writeFromReadableStreamDefaultReader(reader, writable, currentReadPromise) {
+  const cancel = (error) => {
+    reader.cancel(error).catch(() => {
+    });
+  };
+  writable.on("close", cancel);
+  writable.on("error", cancel);
+  (currentReadPromise ?? reader.read()).then(flow, handleStreamError);
+  return reader.closed.finally(() => {
+    writable.off("close", cancel);
+    writable.off("error", cancel);
+  });
+  function handleStreamError(error) {
+    if (error) {
+      writable.destroy(error);
+    }
+  }
+  function onDrain() {
+    reader.read().then(flow, handleStreamError);
+  }
+  function flow({ done, value }) {
+    try {
+      if (done) {
+        writable.end();
+      } else if (!writable.write(value)) {
+        writable.once("drain", onDrain);
+      } else {
+        return reader.read().then(flow, handleStreamError);
+      }
+    } catch (e) {
+      handleStreamError(e);
+    }
+  }
+}
+function writeFromReadableStream(stream2, writable) {
+  if (stream2.locked) {
+    throw new TypeError("ReadableStream is locked.");
+  } else if (writable.destroyed) {
+    return;
+  }
+  return writeFromReadableStreamDefaultReader(stream2.getReader(), writable);
+}
+var buildOutgoingHttpHeaders = (headers) => {
+  const res = {};
+  if (!(headers instanceof Headers)) {
+    headers = new Headers(headers ?? void 0);
+  }
+  const cookies = [];
+  for (const [k, v] of headers) {
+    if (k === "set-cookie") {
+      cookies.push(v);
+    } else {
+      res[k] = v;
+    }
+  }
+  if (cookies.length > 0) {
+    res["set-cookie"] = cookies;
+  }
+  res["content-type"] ??= "text/plain; charset=UTF-8";
+  return res;
+};
+var X_ALREADY_SENT = "x-hono-already-sent";
+if (typeof global.crypto === "undefined") {
+  global.crypto = crypto2;
+}
+var outgoingEnded = /* @__PURE__ */ Symbol("outgoingEnded");
+var incomingDraining = /* @__PURE__ */ Symbol("incomingDraining");
+var DRAIN_TIMEOUT_MS = 500;
+var MAX_DRAIN_BYTES = 64 * 1024 * 1024;
+var drainIncoming = (incoming) => {
+  const incomingWithDrainState = incoming;
+  if (incoming.destroyed || incomingWithDrainState[incomingDraining]) {
+    return;
+  }
+  incomingWithDrainState[incomingDraining] = true;
+  if (incoming instanceof Http2ServerRequest2) {
+    try {
+      ;
+      incoming.stream?.close?.(h2constants.NGHTTP2_NO_ERROR);
+    } catch {
+    }
+    return;
+  }
+  let bytesRead = 0;
+  const cleanup = () => {
+    clearTimeout(timer);
+    incoming.off("data", onData);
+    incoming.off("end", cleanup);
+    incoming.off("error", cleanup);
+  };
+  const forceClose = () => {
+    cleanup();
+    const socket = incoming.socket;
+    if (socket && !socket.destroyed) {
+      socket.destroySoon();
+    }
+  };
+  const timer = setTimeout(forceClose, DRAIN_TIMEOUT_MS);
+  timer.unref?.();
+  const onData = (chunk) => {
+    bytesRead += chunk.length;
+    if (bytesRead > MAX_DRAIN_BYTES) {
+      forceClose();
+    }
+  };
+  incoming.on("data", onData);
+  incoming.on("end", cleanup);
+  incoming.on("error", cleanup);
+  incoming.resume();
+};
+var handleRequestError = () => new Response(null, {
+  status: 400
+});
+var handleFetchError = (e) => new Response(null, {
+  status: e instanceof Error && (e.name === "TimeoutError" || e.constructor.name === "TimeoutError") ? 504 : 500
+});
+var handleResponseError = (e, outgoing) => {
+  const err = e instanceof Error ? e : new Error("unknown error", { cause: e });
+  if (err.code === "ERR_STREAM_PREMATURE_CLOSE") {
+    console.info("The user aborted a request.");
+  } else {
+    console.error(e);
+    if (!outgoing.headersSent) {
+      outgoing.writeHead(500, { "Content-Type": "text/plain" });
+    }
+    outgoing.end(`Error: ${err.message}`);
+    outgoing.destroy(err);
+  }
+};
+var flushHeaders = (outgoing) => {
+  if ("flushHeaders" in outgoing && outgoing.writable) {
+    outgoing.flushHeaders();
+  }
+};
+var responseViaCache = async (res, outgoing) => {
+  let [status, body, header] = res[cacheKey];
+  let hasContentLength = false;
+  if (!header) {
+    header = { "content-type": "text/plain; charset=UTF-8" };
+  } else if (header instanceof Headers) {
+    hasContentLength = header.has("content-length");
+    header = buildOutgoingHttpHeaders(header);
+  } else if (Array.isArray(header)) {
+    const headerObj = new Headers(header);
+    hasContentLength = headerObj.has("content-length");
+    header = buildOutgoingHttpHeaders(headerObj);
+  } else {
+    for (const key in header) {
+      if (key.length === 14 && key.toLowerCase() === "content-length") {
+        hasContentLength = true;
+        break;
+      }
+    }
+  }
+  if (!hasContentLength) {
+    if (typeof body === "string") {
+      header["Content-Length"] = Buffer.byteLength(body);
+    } else if (body instanceof Uint8Array) {
+      header["Content-Length"] = body.byteLength;
+    } else if (body instanceof Blob) {
+      header["Content-Length"] = body.size;
+    }
+  }
+  outgoing.writeHead(status, header);
+  if (typeof body === "string" || body instanceof Uint8Array) {
+    outgoing.end(body);
+  } else if (body instanceof Blob) {
+    outgoing.end(new Uint8Array(await body.arrayBuffer()));
+  } else {
+    flushHeaders(outgoing);
+    await writeFromReadableStream(body, outgoing)?.catch(
+      (e) => handleResponseError(e, outgoing)
+    );
+  }
+  ;
+  outgoing[outgoingEnded]?.();
+};
+var isPromise = (res) => typeof res.then === "function";
+var responseViaResponseObject = async (res, outgoing, options = {}) => {
+  if (isPromise(res)) {
+    if (options.errorHandler) {
+      try {
+        res = await res;
+      } catch (err) {
+        const errRes = await options.errorHandler(err);
+        if (!errRes) {
+          return;
+        }
+        res = errRes;
+      }
+    } else {
+      res = await res.catch(handleFetchError);
+    }
+  }
+  if (cacheKey in res) {
+    return responseViaCache(res, outgoing);
+  }
+  const resHeaderRecord = buildOutgoingHttpHeaders(res.headers);
+  if (res.body) {
+    const reader = res.body.getReader();
+    const values = [];
+    let done = false;
+    let currentReadPromise = void 0;
+    if (resHeaderRecord["transfer-encoding"] !== "chunked") {
+      let maxReadCount = 2;
+      for (let i = 0; i < maxReadCount; i++) {
+        currentReadPromise ||= reader.read();
+        const chunk = await readWithoutBlocking(currentReadPromise).catch((e) => {
+          console.error(e);
+          done = true;
+        });
+        if (!chunk) {
+          if (i === 1) {
+            await new Promise((resolve3) => setTimeout(resolve3));
+            maxReadCount = 3;
+            continue;
+          }
+          break;
+        }
+        currentReadPromise = void 0;
+        if (chunk.value) {
+          values.push(chunk.value);
+        }
+        if (chunk.done) {
+          done = true;
+          break;
+        }
+      }
+      if (done && !("content-length" in resHeaderRecord)) {
+        resHeaderRecord["content-length"] = values.reduce((acc, value) => acc + value.length, 0);
+      }
+    }
+    outgoing.writeHead(res.status, resHeaderRecord);
+    values.forEach((value) => {
+      ;
+      outgoing.write(value);
+    });
+    if (done) {
+      outgoing.end();
+    } else {
+      if (values.length === 0) {
+        flushHeaders(outgoing);
+      }
+      await writeFromReadableStreamDefaultReader(reader, outgoing, currentReadPromise);
+    }
+  } else if (resHeaderRecord[X_ALREADY_SENT]) {
+  } else {
+    outgoing.writeHead(res.status, resHeaderRecord);
+    outgoing.end();
+  }
+  ;
+  outgoing[outgoingEnded]?.();
+};
+var getRequestListener = (fetchCallback, options = {}) => {
+  const autoCleanupIncoming = options.autoCleanupIncoming ?? true;
+  if (options.overrideGlobalObjects !== false && global.Request !== Request2) {
+    Object.defineProperty(global, "Request", {
+      value: Request2
+    });
+    Object.defineProperty(global, "Response", {
+      value: Response2
+    });
+  }
+  return async (incoming, outgoing) => {
+    let res, req;
+    try {
+      req = newRequest(incoming, options.hostname);
+      let incomingEnded = !autoCleanupIncoming || incoming.method === "GET" || incoming.method === "HEAD";
+      if (!incomingEnded) {
+        ;
+        incoming[wrapBodyStream] = true;
+        incoming.on("end", () => {
+          incomingEnded = true;
+        });
+        if (incoming instanceof Http2ServerRequest2) {
+          ;
+          outgoing[outgoingEnded] = () => {
+            if (!incomingEnded) {
+              setTimeout(() => {
+                if (!incomingEnded) {
+                  setTimeout(() => {
+                    drainIncoming(incoming);
+                  });
+                }
+              });
+            }
+          };
+        }
+        outgoing.on("finish", () => {
+          if (!incomingEnded) {
+            drainIncoming(incoming);
+          }
+        });
+      }
+      outgoing.on("close", () => {
+        const abortController = req[abortControllerKey];
+        if (abortController) {
+          if (incoming.errored) {
+            req[abortControllerKey].abort(incoming.errored.toString());
+          } else if (!outgoing.writableFinished) {
+            req[abortControllerKey].abort("Client connection prematurely closed.");
+          }
+        }
+        if (!incomingEnded) {
+          setTimeout(() => {
+            if (!incomingEnded) {
+              setTimeout(() => {
+                drainIncoming(incoming);
+              });
+            }
+          });
+        }
+      });
+      res = fetchCallback(req, { incoming, outgoing });
+      if (cacheKey in res) {
+        return responseViaCache(res, outgoing);
+      }
+    } catch (e) {
+      if (!res) {
+        if (options.errorHandler) {
+          res = await options.errorHandler(req ? e : toRequestError(e));
+          if (!res) {
+            return;
+          }
+        } else if (!req) {
+          res = handleRequestError();
+        } else {
+          res = handleFetchError(e);
+        }
+      } else {
+        return handleResponseError(e, outgoing);
+      }
+    }
+    try {
+      return await responseViaResponseObject(res, outgoing, options);
+    } catch (e) {
+      return handleResponseError(e, outgoing);
+    }
+  };
 };
 
 // packages/db/dist/client.js
@@ -38697,15 +39313,15 @@ var getPattern = (label, next) => {
   }
   const match2 = label.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);
   if (match2) {
-    const cacheKey = `${label}#${next}`;
-    if (!patternCache[cacheKey]) {
+    const cacheKey2 = `${label}#${next}`;
+    if (!patternCache[cacheKey2]) {
       if (match2[2]) {
-        patternCache[cacheKey] = next && next[0] !== ":" && next[0] !== "*" ? [cacheKey, match2[1], new RegExp(`^${match2[2]}(?=/${next})`)] : [label, match2[1], new RegExp(`^${match2[2]}$`)];
+        patternCache[cacheKey2] = next && next[0] !== ":" && next[0] !== "*" ? [cacheKey2, match2[1], new RegExp(`^${match2[2]}(?=/${next})`)] : [label, match2[1], new RegExp(`^${match2[2]}$`)];
       } else {
-        patternCache[cacheKey] = [label, match2[1], true];
+        patternCache[cacheKey2] = [label, match2[1], true];
       }
     }
-    return patternCache[cacheKey];
+    return patternCache[cacheKey2];
   }
   return null;
 };
@@ -40979,7 +41595,7 @@ var baseMimes = _baseMimes;
 import { createReadStream, statSync, existsSync } from "fs";
 import { join } from "path";
 import { versions } from "process";
-import { Readable } from "stream";
+import { Readable as Readable2 } from "stream";
 var COMPRESSIBLE_CONTENT_TYPE_REGEX = /^\s*(?:text\/[^;\s]+|application\/(?:javascript|json|xml|xml-dtd|ecmascript|dart|postscript|rtf|tar|toml|vnd\.dart|vnd\.ms-fontobject|vnd\.ms-opentype|wasm|x-httpd-php|x-javascript|x-ns-proxy-autoconfig|x-sh|x-tar|x-virtualbox-hdd|x-virtualbox-ova|x-virtualbox-ovf|x-virtualbox-vbox|x-virtualbox-vdi|x-virtualbox-vhd|x-virtualbox-vmdk|x-www-form-urlencoded)|font\/(?:otf|ttf)|image\/(?:bmp|vnd\.adobe\.photoshop|vnd\.microsoft\.icon|vnd\.ms-dds|x-icon|x-ms-bmp)|message\/rfc822|model\/gltf-binary|x-shader\/x-fragment|x-shader\/x-vertex|[^;\s]+?\+(?:json|text|xml|yaml))(?:[;\s]|$)/i;
 var ENCODINGS = {
   br: ".br",
@@ -40994,7 +41610,7 @@ var pr54206Applied = () => {
 var useReadableToWeb = pr54206Applied();
 var createStreamBody = (stream2) => {
   if (useReadableToWeb) {
-    return Readable.toWeb(stream2);
+    return Readable2.toWeb(stream2);
   }
   const body = new ReadableStream({
     start(controller) {
@@ -60930,7 +61546,7 @@ if (process.env["TURSO_DATABASE_URL"]) {
   setDb(drizzle3(client, { schema: schema_exports }));
 }
 var app = createApp();
-var server_default = handle(app);
+var server_default = getRequestListener(app.fetch);
 export {
   config,
   server_default as default
