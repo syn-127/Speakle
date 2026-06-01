@@ -1,16 +1,11 @@
 {
-  "framework": null,
-  "outputDirectory": "dist",
+  "framework": "vite",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @speakle/web build && pnpm -w run bundle:api",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "/api/handler"
     }
   ]
 }
