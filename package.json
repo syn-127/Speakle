@@ -17,6 +17,7 @@
     "db:migrate": "DATABASE_PATH=$(pwd)/apps/api/speakle.db pnpm --filter @speakle/db run migrate",
     "db:studio": "DATABASE_PATH=$(pwd)/apps/api/speakle.db pnpm --filter @speakle/db run studio",
     "db:seed": "pnpm --filter @speakle/db run seed",
+    "bundle:api": "esbuild api/_source.ts --bundle --platform=node --target=node18 --format=esm --outfile=api/index.mjs --external:better-sqlite3 --external:@libsql/client --external:libsql --log-level=info",
     "test": "pnpm -r run test",
     "clean": "pnpm -r run clean && find . -name 'node_modules' -not -path '*/.git/*' -prune -exec rm -rf {} +"
   },

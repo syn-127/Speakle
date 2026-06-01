@@ -1,6 +1,6 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @speakle/web build && pnpm exec esbuild api/_source.ts --bundle --platform=node --target=node18 --format=esm --outfile=api/index.mjs --external:better-sqlite3",
+  "buildCommand": "pnpm --filter @speakle/web build && pnpm run bundle:api",
   "rewrites": [
     {
       "source": "/api/:path*",
