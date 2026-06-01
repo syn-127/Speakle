@@ -33,7 +33,16 @@ categoriesRouter.post('/', authMiddleware, zValidator('json', categorySchema), a
 
   const [cat] = await db
     .insert(categories)
-    .values({ id: createId(), ...input, slug, createdAt: now, updatedAt: now })
+    .values({
+      id: createId(),
+      name: input.name,
+      slug,
+      description: input.description ?? null,
+      parentId: input.parentId ?? null,
+      color: input.color ?? null,
+      createdAt: now,
+      updatedAt: now,
+    })
     .returning();
 
   return c.json(cat, 201);
