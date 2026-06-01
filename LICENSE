@@ -1,0 +1,69 @@
+Speakle Personal Use License
+Version 1.0, 2025
+
+Copyright (c) 2025 Speakle Contributors
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND MODIFICATION
+
+1. DEFINITIONS
+   "Software" means the Speakle blog platform source code, documentation,
+   and all associated files distributed under this License.
+   "You" means the individual or legal entity exercising rights under this License.
+   "Personal Use" means use for personal, non-commercial purposes, including
+   self-hosted deployments for personal or internal organizational use.
+   "Commercial Distribution" means selling, sublicensing, or distributing
+   the Software (or substantial portions of it) as a standalone product or
+   as a primary component of a commercial product or service.
+
+2. GRANT OF RIGHTS
+   Subject to the terms of this License, you are granted a worldwide,
+   royalty-free, non-exclusive license to:
+
+   a) Download, copy, and store the Software for Personal Use.
+   b) Modify the Software and create derivative works for Personal Use.
+   c) Self-host the Software on your own servers or infrastructure for
+      Personal Use, including for a personal blog, portfolio, or internal
+      team knowledge base.
+   d) Share unmodified copies of the Software with others, provided you
+      include this License in full and make no charge beyond reasonable
+      reproduction costs.
+
+3. RESTRICTIONS
+   The following uses are expressly prohibited:
+
+   a) Commercial Distribution: You may not sell, sublicense, or commercially
+      distribute the Software or any derivative works as a standalone product,
+      hosted service, or primary feature of a commercial offering.
+   b) SaaS / Hosted Service: You may not operate a public or commercial
+      hosted version of the Software (e.g., a "Software as a Service"
+      offering) where third parties pay for access to Speakle's functionality.
+   c) Rebranding for Resale: You may not rebrand the Software and sell or
+      distribute it under a different name as your own product.
+   d) Removing Attribution: You must retain all copyright notices, this
+      License, and any "Powered by Speakle" attributions present in the
+      Software in any copy or substantial portion you distribute.
+
+4. CONTRIBUTIONS
+   By submitting contributions (pull requests, patches, etc.) to this project,
+   you agree that your contributions are licensed under the same terms as
+   this License and that you have the right to grant such license.
+
+5. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+   OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+   ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+   OTHER DEALINGS IN THE SOFTWARE.
+
+6. TERMINATION
+   Your rights under this License terminate automatically if you breach any
+   of its terms. Upon termination, you must destroy all copies of the Software
+   in your possession.
+
+7. GOVERNING LAW
+   This License shall be governed by and construed in accordance with
+   applicable law, without regard to conflict of law principles.
+
+For commercial licensing inquiries, please contact the project maintainers.
