@@ -1,7 +1,4 @@
-# Exclude compiled API source from deployment — these individually-compiled .js
-# files would fail at runtime because @speakle/db symlinks resolve to .ts source.
-# The esbuild bundle at api/index.mjs has all workspace code inlined already.
-# NOTE: packages/ is intentionally NOT excluded — the web build needs it.
-
-apps/api/src
-apps/api/dist
+# Workspace package dist/ directories are pre-built and committed to git.
+# No exclusions needed — the esbuild bundle (api/index.mjs) is the function entry,
+# and if @vercel/node also compiles apps/api/src/, those files will import from
+# packages/*/dist/*.js (compiled JavaScript) rather than TypeScript source.
