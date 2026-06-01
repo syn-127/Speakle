@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { createPostSchema, updatePostSchema, postQuerySchema } from '@speakle/shared';
+import { createPostSchema, updatePostSchema, postQuerySchema, type CreatePostInput, type UpdatePostInput } from '@speakle/shared';
 import { z } from 'zod';
 import { authMiddleware, adminOnly } from '../../middleware/auth';
 import {
@@ -14,6 +14,7 @@ import {
   listRevisions,
   restoreRevision,
 } from '../../services/post.service';
+import { validated } from '../../lib/db-helpers';
 
 export const postsRouter = new Hono();
 
@@ -31,7 +32,7 @@ postsRouter.get('/:idOrSlug', async (c) => {
 });
 
 postsRouter.post('/', authMiddleware, zValidator('json', createPostSchema), async (c) => {
-  const input = c.req.valid('json');
+  const input = validated<CreatePostInput>(c.req.valid('json'));
   const user = c.get('user');
   const post = await createPost(input, user.id);
   return c.json(post, 201);
@@ -39,7 +40,7 @@ postsRouter.post('/', authMiddleware, zValidator('json', createPostSchema), asyn
 
 postsRouter.put('/:id', authMiddleware, zValidator('json', updatePostSchema), async (c) => {
   const id = c.req.param('id');
-  const input = c.req.valid('json');
+  const input = validated<UpdatePostInput>(c.req.valid('json'));
 
   // Auto-save revision before update
   const user = c.get('user');

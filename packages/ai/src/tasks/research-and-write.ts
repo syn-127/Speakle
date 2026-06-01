@@ -39,13 +39,20 @@ export async function researchAndWrite(
     .map((s, i) => `[${i + 1}] ${s.title}\n${s.snippet}`)
     .join('\n\n---\n\n');
 
-  const { object: outline } = await generateObject({
+  // Cast the generateObject result — across pnpm Zod instances the inferred type
+  // may show z.string() fields as optional; the runtime value is always correct.
+  const { object: outlineRaw } = await generateObject({
     model,
     schema: outlineSchema,
     prompt: `Based on these research sources about "${topic}", extract key findings and suggest a blog post outline:
 
 ${sourceContext}`,
   });
+
+  const outline = outlineRaw as unknown as {
+    keyFindings: string[];
+    suggestedOutline: Array<{ h2: string; h3s: string[] }>;
+  };
 
   const brief: ResearchBrief = {
     topic,
