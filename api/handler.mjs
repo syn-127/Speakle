@@ -39142,7 +39142,7 @@ function createLocalDb() {
   sqlite.pragma("foreign_keys = ON");
   return drizzle(sqlite, { schema: schema_exports });
 }
-var db = createLocalDb();
+var db = process.env["TURSO_DATABASE_URL"] ? null : createLocalDb();
 function setDb(newDb) {
   db = newDb;
 }

@@ -11,10 +11,12 @@ function createLocalDb() {
   return drizzle(sqlite, { schema });
 }
 
-// TypeScript always sees BetterSQLite3Database — fully typed, all overloads resolve.
-// In production the Vercel entry calls setDb() with a LibSQLDatabase before serving
-// any requests. Both drivers share the same drizzle query API so callers work unchanged.
-export let db = createLocalDb();
+// Skip SQLite when TURSO_DATABASE_URL is set — the Vercel entry calls setDb()
+// with a LibSQLDatabase before any requests are served. Avoids trying to
+// create a file on Vercel's read-only /var/task/ filesystem.
+export let db: ReturnType<typeof createLocalDb> = process.env['TURSO_DATABASE_URL']
+  ? (null as unknown as ReturnType<typeof createLocalDb>)
+  : createLocalDb();
 
 export function setDb(newDb: typeof db) {
   db = newDb;
