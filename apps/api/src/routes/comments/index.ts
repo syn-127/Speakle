@@ -45,19 +45,21 @@ commentsRouter.post('/', zValidator('json', createCommentSchema), async (c) => {
   const now = Date.now();
   const ip = c.req.header('x-forwarded-for') ?? c.req.header('x-real-ip');
 
-  const [comment] = await db
-    .insert(comments)
-    .values({
-      id: createId(),
-      ...input,
-      parentId: input.parentId ?? null,
-      authorUrl: input.authorUrl ?? null,
-      status: 'pending',
-      ipAddress: ip ?? null,
-      createdAt: now,
-      updatedAt: now,
-    })
-    .returning();
+  const commentRow = {
+    id: createId(),
+    postId: input.postId,
+    parentId: input.parentId ?? null,
+    authorName: input.authorName,
+    authorEmail: input.authorEmail,
+    authorUrl: input.authorUrl ?? null,
+    content: input.content,
+    status: 'pending' as const,
+    ipAddress: ip ?? null,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const [comment] = await db.insert(comments).values(commentRow).returning();
 
   return c.json(comment, 201);
 });

@@ -31,19 +31,20 @@ categoriesRouter.post('/', authMiddleware, zValidator('json', categorySchema), a
       .replace(/[^a-z0-9\s]/g, '')
       .replace(/\s+/g, '-');
 
-  const [cat] = await db
-    .insert(categories)
-    .values({
-      id: createId(),
-      name: input.name,
-      slug,
-      description: input.description ?? null,
-      parentId: input.parentId ?? null,
-      color: input.color ?? null,
-      createdAt: now,
-      updatedAt: now,
-    })
-    .returning();
+  // Assign to a variable first — TypeScript's excess property check only fires on
+  // direct object literals passed to functions, not on variables.
+  const row = {
+    id: createId(),
+    name: input.name,
+    slug,
+    description: input.description ?? null,
+    parentId: input.parentId ?? null,
+    color: input.color ?? null,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const [cat] = await db.insert(categories).values(row).returning();
 
   return c.json(cat, 201);
 });

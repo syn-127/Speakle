@@ -143,29 +143,28 @@ export async function createPost(input: CreatePostInput, authorId: string) {
   const publishedAt =
     input.status === 'published' ? now : null;
 
-  const [post] = await db
-    .insert(posts)
-    .values({
-      id,
-      slug,
-      title: input.title,
-      excerpt: input.excerpt ?? null,
-      content: input.content,
-      status: input.status ?? 'draft',
-      authorId,
-      categoryId: input.categoryId ?? null,
-      featuredImage: input.featuredImage ?? null,
-      publishedAt,
-      scheduledAt: input.scheduledAt ?? null,
-      seoTitle: input.seoTitle ?? null,
-      seoDescription: input.seoDescription ?? null,
-      seoKeywords: input.seoKeywords ?? null,
-      ogImage: input.ogImage ?? null,
-      readingTime: estimateReadingTime(input.content),
-      createdAt: now,
-      updatedAt: now,
-    })
-    .returning();
+  const postRow = {
+    id,
+    slug,
+    title: input.title,
+    excerpt: input.excerpt ?? null,
+    content: input.content,
+    status: input.status ?? 'draft',
+    authorId,
+    categoryId: input.categoryId ?? null,
+    featuredImage: input.featuredImage ?? null,
+    publishedAt,
+    scheduledAt: input.scheduledAt ?? null,
+    seoTitle: input.seoTitle ?? null,
+    seoDescription: input.seoDescription ?? null,
+    seoKeywords: input.seoKeywords ?? null,
+    ogImage: input.ogImage ?? null,
+    readingTime: estimateReadingTime(input.content),
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const [post] = await db.insert(posts).values(postRow).returning();
 
   if (input.tagIds && input.tagIds.length > 0) {
     await db.insert(postTags).values(input.tagIds.map((tagId) => ({ postId: id, tagId })));
@@ -221,18 +220,17 @@ export async function createRevision(postId: string, authorId: string, message?:
   const current = await db.select().from(posts).where(eq(posts.id, postId)).limit(1);
   if (!current[0]) return null;
 
-  const [revision] = await db
-    .insert(postRevisions)
-    .values({
-      id: createId(),
-      postId,
-      content: current[0].content,
-      title: current[0].title,
-      authorId,
-      message: message ?? null,
-      createdAt: Date.now(),
-    })
-    .returning();
+  const revisionRow = {
+    id: createId(),
+    postId,
+    content: current[0].content,
+    title: current[0].title,
+    authorId,
+    message: message ?? null,
+    createdAt: Date.now(),
+  };
+
+  const [revision] = await db.insert(postRevisions).values(revisionRow).returning();
 
   return revision;
 }

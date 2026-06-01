@@ -9,18 +9,17 @@ export async function createSession(userId: string, ipAddress?: string, userAgen
   const token = createId() + createId(); // ~44 chars of entropy
   const now = Date.now();
 
-  const [session] = await db
-    .insert(sessions)
-    .values({
-      id: createId(),
-      userId,
-      token,
-      expiresAt: now + SESSION_DURATION_MS,
-      ipAddress,
-      userAgent,
-      createdAt: now,
-    })
-    .returning();
+  const sessionRow = {
+    id: createId(),
+    userId,
+    token,
+    expiresAt: now + SESSION_DURATION_MS,
+    ipAddress: ipAddress ?? null,
+    userAgent: userAgent ?? null,
+    createdAt: now,
+  };
+
+  const [session] = await db.insert(sessions).values(sessionRow).returning();
 
   return session!;
 }
