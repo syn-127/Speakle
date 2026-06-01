@@ -1,5 +1,6 @@
 import { handle } from 'hono/vercel';
 import { setDb } from '@speakle/db';
+import * as schema from '@speakle/db/schema';
 import { createApp } from '../src/app';
 
 export const config = { runtime: 'nodejs' };
@@ -13,8 +14,7 @@ if (process.env['TURSO_DATABASE_URL']) {
     url: process.env['TURSO_DATABASE_URL'],
     authToken: process.env['TURSO_AUTH_TOKEN'],
   });
-  // Cast is safe: LibSQLDatabase and BetterSQLite3Database share the same query API
-  setDb(drizzle(client, { schema: await import('@speakle/db/schema') }) as Parameters<typeof setDb>[0]);
+  setDb(drizzle(client, { schema }) as Parameters<typeof setDb>[0]);
 }
 
 const app = createApp();
