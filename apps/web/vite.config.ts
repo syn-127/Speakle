@@ -15,6 +15,12 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  build: {
+    // Output to the monorepo root dist/ so Vercel auto-discovers it as a static site.
+    // Local dev still uses vite preview from this path.
+    outDir: resolve(__dirname, '../../dist'),
+    emptyOutDir: true,
+  },
   server: {
     port: 5173,
     proxy: {

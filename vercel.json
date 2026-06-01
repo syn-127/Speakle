@@ -1,8 +1,6 @@
 {
-  "framework": null,
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @speakle/web build",
-  "outputDirectory": "apps/web/dist",
   "rewrites": [
     {
       "source": "/api/:path*",
