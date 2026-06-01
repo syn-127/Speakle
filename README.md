@@ -86,6 +86,64 @@ speakle/
 | `pnpm db:generate` | Generate migrations from schema changes |
 | `pnpm typecheck` | TypeScript check all packages |
 
+## Deploy to Vercel
+
+Vercel doesn't support persistent local files, so you need two free services before deploying:
+
+### 1. Create a Turso database (hosted SQLite)
+
+```bash
+# Install Turso CLI
+curl -sSfL https://get.tur.so/install.sh | bash
+
+turso auth login
+turso db create speakle
+
+# Get your credentials
+turso db show speakle --url     # → TURSO_DATABASE_URL
+turso db tokens create speakle # → TURSO_AUTH_TOKEN
+
+# Push your schema to Turso
+TURSO_DATABASE_URL=<url> TURSO_AUTH_TOKEN=<token> pnpm db:migrate
+TURSO_DATABASE_URL=<url> TURSO_AUTH_TOKEN=<token> pnpm db:seed
+```
+
+### 2. Deploy
+
+```bash
+npm i -g vercel
+vercel login
+vercel  # follow prompts
+```
+
+Add these **Environment Variables** in the Vercel dashboard (Settings → Environment Variables):
+
+| Variable | Where to get it |
+|---|---|
+| `TURSO_DATABASE_URL` | `turso db show speakle --url` |
+| `TURSO_AUTH_TOKEN` | `turso db tokens create speakle` |
+| `ENCRYPTION_KEY` | `openssl rand -hex 32` |
+| `BETTER_AUTH_SECRET` | `openssl rand -base64 32` |
+| `BETTER_AUTH_URL` | Your Vercel URL e.g. `https://speakle.vercel.app` |
+
+### 3. Enable Vercel Blob (file uploads)
+
+Vercel dashboard → **Storage** → **Create** → **Blob**. The `BLOB_READ_WRITE_TOKEN` variable is added automatically.
+
+### 4. Add AI keys (optional at deploy time)
+
+Add `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` as environment variables, or set them later via Admin → Settings → AI after deploying.
+
+### 5. Deploy to production
+
+```bash
+vercel --prod
+```
+
+Open `https://your-project.vercel.app/admin/login` — use the seed credentials to log in.
+
+---
+
 ## License
 
 See [LICENSE](./LICENSE) — personal use, self-hosting, and modification are permitted. Commercial redistribution is not.

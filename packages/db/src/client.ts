@@ -1,16 +1,27 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { resolve } from 'path';
 import * as schema from './schema/index';
 
-const dbPath = process.env['DATABASE_PATH'] ?? resolve(process.cwd(), 'speakle.db');
+// Top-level await + dynamic imports so @libsql/client is never loaded in local dev
+// and better-sqlite3 is never loaded in production (Vercel + Turso).
+async function initDb() {
+  if (process.env['TURSO_DATABASE_URL']) {
+    const { createClient } = await import('@libsql/client');
+    const { drizzle } = await import('drizzle-orm/libsql');
+    const client = createClient({
+      url: process.env['TURSO_DATABASE_URL'],
+      authToken: process.env['TURSO_AUTH_TOKEN'],
+    });
+    return drizzle(client, { schema });
+  }
 
-const sqlite = new Database(dbPath);
+  const { default: Database } = await import('better-sqlite3');
+  const { drizzle } = await import('drizzle-orm/better-sqlite3');
+  const { resolve } = await import('path');
+  const dbPath = process.env['DATABASE_PATH'] ?? resolve(process.cwd(), 'speakle.db');
+  const sqlite = new Database(dbPath);
+  sqlite.pragma('journal_mode = WAL');
+  sqlite.pragma('foreign_keys = ON');
+  return drizzle(sqlite, { schema });
+}
 
-// Enable WAL mode for better concurrent read performance
-sqlite.pragma('journal_mode = WAL');
-sqlite.pragma('foreign_keys = ON');
-
-export const db = drizzle(sqlite, { schema });
-
+export const db = await initDb();
 export type DB = typeof db;

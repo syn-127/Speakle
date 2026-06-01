@@ -11,7 +11,8 @@ import { existsSync } from 'fs';
 
 const UPLOAD_DIR = process.env['UPLOAD_DIR'] ?? './uploads';
 const MAX_SIZE_MB = parseInt(process.env['MAX_UPLOAD_SIZE_MB'] ?? '10', 10);
-const API_URL = process.env['API_URL'] ?? 'http://localhost:3001';
+const API_URL = process.env['API_URL'] ?? 'http://localhost:3002';
+const IS_VERCEL = !!process.env['VERCEL'];
 
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
@@ -27,6 +28,21 @@ const ALLOWED_MIME_TYPES = [
   'audio/webm',
   'audio/ogg',
 ];
+
+async function uploadToVercelBlob(file: File, filename: string): Promise<string> {
+  const { put } = await import('@vercel/blob');
+  const { url } = await put(filename, file, { access: 'public' });
+  return url;
+}
+
+async function uploadToLocalDisk(file: File, filename: string): Promise<string> {
+  if (!existsSync(UPLOAD_DIR)) {
+    await mkdir(UPLOAD_DIR, { recursive: true });
+  }
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await writeFile(join(UPLOAD_DIR, filename), buffer);
+  return `${API_URL}/uploads/${filename}`;
+}
 
 export const mediaRouter = new Hono();
 
@@ -66,14 +82,9 @@ mediaRouter.post('/upload', authMiddleware, async (c) => {
   const ext = extname(file.name) || '.bin';
   const filename = `${id}${ext}`;
 
-  if (!existsSync(UPLOAD_DIR)) {
-    await mkdir(UPLOAD_DIR, { recursive: true });
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(join(UPLOAD_DIR, filename), buffer);
-
-  const url = `${API_URL}/uploads/${filename}`;
+  const url = IS_VERCEL
+    ? await uploadToVercelBlob(file, filename)
+    : await uploadToLocalDisk(file, filename);
 
   const [uploaded] = await db
     .insert(media)
@@ -110,10 +121,20 @@ mediaRouter.delete('/:id', authMiddleware, async (c) => {
   const [item] = await db.select().from(media).where(eq(media.id, id)).limit(1);
   if (!item) return c.json({ error: 'Not found' }, 404);
 
-  try {
-    await unlink(join(UPLOAD_DIR, item.filename));
-  } catch {
-    // File may already be gone
+  if (!IS_VERCEL) {
+    try {
+      await unlink(join(UPLOAD_DIR, item.filename));
+    } catch {
+      // File may already be gone
+    }
+  } else {
+    // Vercel Blob deletion
+    try {
+      const { del } = await import('@vercel/blob');
+      await del(item.url);
+    } catch {
+      // Best effort
+    }
   }
 
   await db.delete(media).where(eq(media.id, id));

@@ -40,7 +40,7 @@ export const authMiddleware = createMiddleware<AuthEnv>(async (c, next) => {
   });
   c.set('sessionToken', token);
 
-  await next();
+  return await next();
 });
 
 export const adminOnly = createMiddleware<AuthEnv>(async (c, next) => {
@@ -48,7 +48,7 @@ export const adminOnly = createMiddleware<AuthEnv>(async (c, next) => {
   if (user.role !== 'admin') {
     return c.json({ error: 'Admin access required' }, 403);
   }
-  await next();
+  return await next();
 });
 
 function getCookieToken(req: Request): string | null {

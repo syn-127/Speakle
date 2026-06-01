@@ -1,0 +1,23 @@
+{
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @speakle/web build",
+  "outputDirectory": "apps/web/dist",
+  "functions": {
+    "apps/api/api/index.ts": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/apps/api/api/index"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": ""
+  }
+}

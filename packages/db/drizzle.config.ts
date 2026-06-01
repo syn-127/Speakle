@@ -1,12 +1,22 @@
 import { defineConfig } from 'drizzle-kit';
 
-const dbPath = process.env['DATABASE_PATH'] ?? '../../apps/api/speakle.db';
+const tursoUrl = process.env['TURSO_DATABASE_URL'];
 
-export default defineConfig({
-  schema: './src/schema/index.ts',
-  out: './src/migrations',
-  dialect: 'sqlite',
-  dbCredentials: {
-    url: dbPath,
-  },
-});
+export default tursoUrl
+  ? defineConfig({
+      schema: './src/schema/index.ts',
+      out: './src/migrations',
+      dialect: 'turso',
+      dbCredentials: {
+        url: tursoUrl,
+        authToken: process.env['TURSO_AUTH_TOKEN'],
+      },
+    })
+  : defineConfig({
+      schema: './src/schema/index.ts',
+      out: './src/migrations',
+      dialect: 'sqlite',
+      dbCredentials: {
+        url: process.env['DATABASE_PATH'] ?? '../../apps/api/speakle.db',
+      },
+    });

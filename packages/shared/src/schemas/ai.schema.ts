@@ -35,8 +35,4 @@ export const continueWritingSchema = z.object({
   provider: z.enum(['anthropic', 'openai']).optional(),
 });
 
-export type GeneratePostInput = z.infer<typeof generatePostSchema>;
-export type ResearchInput = z.infer<typeof researchSchema>;
-export type TranscribeTextInput = z.infer<typeof transcribeTextSchema>;
-export type ImproveSeoInput = z.infer<typeof improveSeoSchema>;
-export type ContinueWritingInput = z.infer<typeof continueWritingSchema>;
+// Types are defined in types/ai.ts — exported from there to avoid duplicate exports.
