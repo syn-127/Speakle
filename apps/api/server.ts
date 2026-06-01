@@ -1,7 +1,7 @@
 import { handle } from 'hono/vercel';
 import { setDb } from '@speakle/db';
 import * as schema from '@speakle/db/schema';
-import { createApp } from '../src/app.js';
+import { createApp } from './src/app.js';
 
 export const config = { runtime: 'nodejs' };
 
