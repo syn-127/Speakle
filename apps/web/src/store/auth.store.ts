@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '@speakle/shared';
-import { setToken } from '../api/client.js';
+import { setToken } from '../api/client';
 
 interface AuthState {
   user: User | null;
@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      setAuth: (user, token) => {
+      setAuth: (user: User, token: string) => {
         setToken(token);
         set({ user, token, isAuthenticated: true });
       },
@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'speakle-auth',
-      partialState: (state: AuthState) => ({ token: state.token, user: state.user }),
-    } as Parameters<typeof persist>[1],
+      partialize: (state: AuthState) => ({ token: state.token, user: state.user }),
+    },
   ),
 );

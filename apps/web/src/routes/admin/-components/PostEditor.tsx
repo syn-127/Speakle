@@ -102,7 +102,6 @@ export function PostEditor({ initialPost }: PostEditorProps) {
     saveMutation.mutate({
       title,
       content,
-      contentHtml: contentHtml || undefined,
       excerpt: excerpt || undefined,
       slug: slug || undefined,
       categoryId: categoryId || undefined,
@@ -199,7 +198,7 @@ export function PostEditor({ initialPost }: PostEditorProps) {
             <TabsContent value="status" className="p-4 space-y-4">
               <div className="space-y-1.5">
                 <Label>Status</Label>
-                <Select value={status} onValueChange={setStatus}>
+                <Select value={status} onValueChange={(v) => setStatus(v as typeof status)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

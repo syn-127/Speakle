@@ -6,16 +6,52 @@ import { fetchStream } from '@/api/client';
 import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 
+// Self-contained Web Speech API types (not all TS lib versions ship these)
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  [index: number]: SpeechRecognitionAlternative | undefined;
+}
+interface SpeechRecognitionResultList {
+  length: number;
+  [index: number]: SpeechRecognitionResult | undefined;
+}
+interface SpeechRecognitionEvent {
+  resultIndex: number;
+  results: SpeechRecognitionResultList;
+}
+interface SpeechRecognitionErrorEvent {
+  error: string;
+}
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+  start(): void;
+  stop(): void;
+}
+type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance;
+
+declare global {
+  interface Window {
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  }
+}
+
 interface VoiceDictationPanelProps {
   onTranscribed: (markdown: string) => void;
 }
 
 export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps) {
-  const { state, transcript, error, setState, setTranscript, appendTranscript, setError, reset } =
+  const { state, transcript, error, setState, setTranscript, setError, reset } =
     useVoiceStore();
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const startRealtime = useCallback(() => {
@@ -25,6 +61,10 @@ export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps)
     }
 
     const SR = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    if (!SR) {
+      setError('Web Speech API not available.');
+      return;
+    }
     const recognition = new SR();
     recognition.continuous = true;
     recognition.interimResults = true;
@@ -32,7 +72,7 @@ export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps)
 
     let finalTranscript = '';
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let interim = '';
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -45,7 +85,8 @@ export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps)
       setTranscript(finalTranscript + (interim ? ` [${interim}]` : ''));
     };
 
-    recognition.onerror = (event) => setError(`Speech recognition error: ${event.error}`);
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) =>
+      setError(`Speech recognition error: ${event.error}`);
 
     recognition.start();
     recognitionRef.current = recognition;
@@ -80,16 +121,13 @@ export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps)
     setState('transcribing');
 
     try {
-      const formData = new FormData();
-      formData.append('audio', file);
-
       let accumulated = '';
       const token = localStorage.getItem('speakle_token');
       const response = await fetch('/api/ai/transcribe', {
         method: 'POST',
         headers: token ? { Authorization: `Bearer ${token}` } : {},
         credentials: 'include',
-        body: formData,
+        body: (() => { const fd = new FormData(); fd.append('audio', file); return fd; })(),
       });
 
       if (!response.ok) {
@@ -212,11 +250,4 @@ export function VoiceDictationPanel({ onTranscribed }: VoiceDictationPanelProps)
       </div>
     </div>
   );
-}
-
-declare global {
-  interface Window {
-    SpeechRecognition?: typeof SpeechRecognition;
-    webkitSpeechRecognition?: typeof SpeechRecognition;
-  }
 }
