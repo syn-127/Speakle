@@ -1,0 +1,113 @@
+import { z } from 'zod';
+export declare const createPostSchema: z.ZodObject<{
+    title: z.ZodString;
+    slug: z.ZodOptional<z.ZodString>;
+    excerpt: z.ZodOptional<z.ZodString>;
+    content: z.ZodString;
+    status: z.ZodDefault<z.ZodEnum<["draft", "published", "scheduled", "trash"]>>;
+    categoryId: z.ZodOptional<z.ZodString>;
+    tagIds: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+    featuredImage: z.ZodOptional<z.ZodString>;
+    scheduledAt: z.ZodOptional<z.ZodNumber>;
+    seoTitle: z.ZodOptional<z.ZodString>;
+    seoDescription: z.ZodOptional<z.ZodString>;
+    seoKeywords: z.ZodOptional<z.ZodString>;
+    ogImage: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    status: "draft" | "published" | "scheduled" | "trash";
+    title: string;
+    content: string;
+    slug?: string | undefined;
+    excerpt?: string | undefined;
+    categoryId?: string | undefined;
+    tagIds?: string[] | undefined;
+    featuredImage?: string | undefined;
+    scheduledAt?: number | undefined;
+    seoTitle?: string | undefined;
+    seoDescription?: string | undefined;
+    seoKeywords?: string | undefined;
+    ogImage?: string | undefined;
+}, {
+    title: string;
+    content: string;
+    status?: "draft" | "published" | "scheduled" | "trash" | undefined;
+    slug?: string | undefined;
+    excerpt?: string | undefined;
+    categoryId?: string | undefined;
+    tagIds?: string[] | undefined;
+    featuredImage?: string | undefined;
+    scheduledAt?: number | undefined;
+    seoTitle?: string | undefined;
+    seoDescription?: string | undefined;
+    seoKeywords?: string | undefined;
+    ogImage?: string | undefined;
+}>;
+export declare const updatePostSchema: z.ZodObject<{
+    title: z.ZodOptional<z.ZodString>;
+    slug: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    excerpt: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    content: z.ZodOptional<z.ZodString>;
+    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<["draft", "published", "scheduled", "trash"]>>>;
+    categoryId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    tagIds: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
+    featuredImage: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    scheduledAt: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
+    seoTitle: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    seoDescription: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    seoKeywords: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    ogImage: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    status?: "draft" | "published" | "scheduled" | "trash" | undefined;
+    title?: string | undefined;
+    slug?: string | undefined;
+    excerpt?: string | undefined;
+    content?: string | undefined;
+    categoryId?: string | undefined;
+    tagIds?: string[] | undefined;
+    featuredImage?: string | undefined;
+    scheduledAt?: number | undefined;
+    seoTitle?: string | undefined;
+    seoDescription?: string | undefined;
+    seoKeywords?: string | undefined;
+    ogImage?: string | undefined;
+}, {
+    status?: "draft" | "published" | "scheduled" | "trash" | undefined;
+    title?: string | undefined;
+    slug?: string | undefined;
+    excerpt?: string | undefined;
+    content?: string | undefined;
+    categoryId?: string | undefined;
+    tagIds?: string[] | undefined;
+    featuredImage?: string | undefined;
+    scheduledAt?: number | undefined;
+    seoTitle?: string | undefined;
+    seoDescription?: string | undefined;
+    seoKeywords?: string | undefined;
+    ogImage?: string | undefined;
+}>;
+export declare const postQuerySchema: z.ZodObject<{
+    page: z.ZodDefault<z.ZodNumber>;
+    limit: z.ZodDefault<z.ZodNumber>;
+    status: z.ZodOptional<z.ZodEnum<["draft", "published", "scheduled", "trash", "all"]>>;
+    category: z.ZodOptional<z.ZodString>;
+    tag: z.ZodOptional<z.ZodString>;
+    search: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    page: number;
+    limit: number;
+    status?: "draft" | "published" | "scheduled" | "trash" | "all" | undefined;
+    category?: string | undefined;
+    tag?: string | undefined;
+    search?: string | undefined;
+}, {
+    status?: "draft" | "published" | "scheduled" | "trash" | "all" | undefined;
+    page?: number | undefined;
+    limit?: number | undefined;
+    category?: string | undefined;
+    tag?: string | undefined;
+    search?: string | undefined;
+}>;
+export type CreatePostInput = z.infer<typeof createPostSchema>;
+export type UpdatePostInput = z.infer<typeof updatePostSchema>;
+export type PostQuery = z.infer<typeof postQuerySchema>;
+//# sourceMappingURL=post.schema.d.ts.map
