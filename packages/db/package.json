@@ -24,6 +24,7 @@
     "migrate": "drizzle-kit migrate",
     "studio": "drizzle-kit studio",
     "seed": "DATABASE_PATH=../../apps/api/speakle.db node_modules/.bin/tsx src/seed.ts",
+    "seed:content": "DATABASE_PATH=../../apps/api/speakle.db node_modules/.bin/tsx src/seed-content.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
