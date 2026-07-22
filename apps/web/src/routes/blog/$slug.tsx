@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/api/client';
 import type { Post } from '@speakle/shared';
 import { formatDate } from '@/lib/utils';
+import { Logo } from '@/components/Logo';
 
 export const Route = createFileRoute('/blog/$slug')({
   component: BlogPost,
@@ -23,7 +24,7 @@ function BlogPost() {
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="text-2xl font-bold text-primary">Speakle</Link>
+          <Link to="/"><Logo /></Link>
         </div>
       </header>
 

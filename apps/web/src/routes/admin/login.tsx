@@ -6,7 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { authApi } from '@/api/auth';
 import { useAuthStore } from '@/store/auth.store';
-import { Zap, Loader2 } from 'lucide-react';
+import { LogoMark } from '@/components/Logo';
+import { Loader2 } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 
 export const Route = createFileRoute('/admin/login')({
@@ -47,8 +48,8 @@ function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/30">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <Zap className="h-6 w-6 text-primary" />
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center">
+            <LogoMark className="h-12 w-12" />
           </div>
           <CardTitle className="text-2xl">Welcome back</CardTitle>
           <CardDescription>Sign in to Speakle Admin</CardDescription>

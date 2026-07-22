@@ -1,6 +1,7 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { api } from '@/api/client';
 import { Button } from '@/components/ui/button';
+import { Logo, LogoMark } from '@/components/Logo';
 import {
   Github, Sparkles, Search, Mic, Code2, Database, Lock, ArrowRight,
 } from 'lucide-react';
@@ -57,7 +58,7 @@ function Home() {
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="text-2xl font-bold text-primary">Speakle</Link>
+          <Link to="/"><Logo /></Link>
           <nav className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link to="/blog" className="hover:text-foreground">Blog</Link>
             <a
@@ -76,7 +77,8 @@ function Home() {
 
       <main>
         <section className="container mx-auto max-w-3xl px-4 py-20 text-center">
-          <h1 className="text-5xl font-bold tracking-tight">Speakle</h1>
+          <LogoMark className="mx-auto h-14 w-14" />
+          <h1 className="mt-4 text-5xl font-bold tracking-tight">Speakle</h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
             A self-hosted, AI-assisted blogging platform for people who'd rather own their
             words than rent them from a SaaS. Write yourself, generate a draft, or dictate
@@ -115,7 +117,7 @@ function Home() {
 
       <footer className="border-t">
         <div className="container mx-auto flex items-center justify-between px-4 py-6 text-sm text-muted-foreground">
-          <span>Speakle</span>
+          <Logo textClassName="text-sm font-semibold" iconClassName="h-5 w-5" />
           <a
             href="https://github.com/syn-127/Speakle"
             target="_blank"

@@ -10,9 +10,9 @@ import {
   Settings,
   Globe,
   MessageSquare,
-  Zap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/Logo';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -33,8 +33,7 @@ export function AdminSidebar() {
   return (
     <aside className="flex h-full w-60 flex-col border-r bg-card">
       <div className="flex h-16 items-center gap-2 border-b px-6">
-        <Zap className="h-6 w-6 text-primary" />
-        <span className="text-xl font-bold tracking-tight">Speakle</span>
+        <Logo />
       </div>
 
       <nav className="flex-1 overflow-y-auto p-3">
