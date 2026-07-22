@@ -8,7 +8,11 @@ export const blogRouter = new Hono();
 
 blogRouter.get('/site-config', async (c) => {
   const showHomepage = await getSetting('show_homepage');
-  return c.json({ showHomepage: showHomepage === null ? true : Boolean(showHomepage) });
+  const googleAnalyticsId = await getSetting('google_analytics_id');
+  return c.json({
+    showHomepage: showHomepage === null ? true : Boolean(showHomepage),
+    googleAnalyticsId: typeof googleAnalyticsId === 'string' && googleAnalyticsId ? googleAnalyticsId : null,
+  });
 });
 
 blogRouter.get('/posts', async (c) => {

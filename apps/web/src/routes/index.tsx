@@ -2,6 +2,7 @@ import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { api } from '@/api/client';
 import { Button } from '@/components/ui/button';
 import { Logo, LogoMark } from '@/components/Logo';
+import { CookiePreferencesLink } from '@/components/shared/CookieConsentBanner';
 import {
   Github, Sparkles, Search, Mic, Code2, Database, Lock, ArrowRight,
 } from 'lucide-react';
@@ -116,17 +117,21 @@ function Home() {
       </main>
 
       <footer className="border-t">
-        <div className="container mx-auto flex items-center justify-between px-4 py-6 text-sm text-muted-foreground">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-muted-foreground sm:flex-row">
           <Logo textClassName="text-sm font-semibold" iconClassName="h-5 w-5" />
-          <a
-            href="https://github.com/syn-127/Speakle"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-foreground"
-          >
-            <Github className="h-4 w-4" />
-            github.com/syn-127/Speakle
-          </a>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy" className="hover:text-foreground">Privacy &amp; Cookies</Link>
+            <CookiePreferencesLink />
+            <a
+              href="https://github.com/syn-127/Speakle"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-foreground"
+            >
+              <Github className="h-4 w-4" />
+              github.com/syn-127/Speakle
+            </a>
+          </div>
         </div>
       </footer>
     </div>

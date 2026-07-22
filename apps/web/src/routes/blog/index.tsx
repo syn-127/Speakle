@@ -4,6 +4,7 @@ import { api } from '@/api/client';
 import type { PostListResult } from '@/api/posts';
 import { formatDate } from '@/lib/utils';
 import { Logo } from '@/components/Logo';
+import { CookiePreferencesLink } from '@/components/shared/CookieConsentBanner';
 
 export const Route = createFileRoute('/blog/')({
   component: BlogIndex,
@@ -46,6 +47,13 @@ function BlogIndex() {
           ))}
         </div>
       </main>
+
+      <footer className="border-t">
+        <div className="container mx-auto flex items-center justify-center gap-4 px-4 py-6 text-sm text-muted-foreground">
+          <Link to="/privacy" className="hover:text-foreground">Privacy &amp; Cookies</Link>
+          <CookiePreferencesLink />
+        </div>
+      </footer>
     </div>
   );
 }

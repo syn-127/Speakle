@@ -144,6 +144,9 @@ function SEOSettings() {
         <div className="space-y-1.5">
           <Label>Google Analytics Measurement ID</Label>
           <Input value={gaId} onChange={(e) => setGaId(e.target.value)} placeholder="G-XXXXXXXXXX" />
+          <p className="text-xs text-muted-foreground">
+            Only loads after a visitor accepts the cookie banner &mdash; never before, per GDPR/CCPA.
+          </p>
         </div>
         <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
           <Save className="h-4 w-4" />
