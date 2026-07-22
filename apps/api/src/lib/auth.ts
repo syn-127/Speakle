@@ -1,9 +1,48 @@
-import { db, sessions, users } from '@speakle/db';
-import { eq, gt } from 'drizzle-orm';
+import { db, sessions, users, loginAttempts } from '@speakle/db';
+import { eq, gt, lt, and } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import { createId } from '@paralleldrive/cuid2';
 
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+const LOGIN_ATTEMPT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const MAX_LOGIN_ATTEMPTS = 8;
+
+export async function checkLoginRateLimit(
+  identifiers: string[],
+): Promise<{ allowed: boolean; retryAfterSeconds: number }> {
+  const now = Date.now();
+  const windowStart = now - LOGIN_ATTEMPT_WINDOW_MS;
+
+  // Opportunistic cleanup so the table doesn't grow unbounded.
+  await db.delete(loginAttempts).where(lt(loginAttempts.createdAt, windowStart));
+
+  for (const identifier of identifiers) {
+    const attempts = await db
+      .select()
+      .from(loginAttempts)
+      .where(and(eq(loginAttempts.identifier, identifier), gt(loginAttempts.createdAt, windowStart)));
+
+    if (attempts.length >= MAX_LOGIN_ATTEMPTS) {
+      const oldest = Math.min(...attempts.map((a) => a.createdAt));
+      const retryAfterSeconds = Math.max(1, Math.ceil((oldest + LOGIN_ATTEMPT_WINDOW_MS - now) / 1000));
+      return { allowed: false, retryAfterSeconds };
+    }
+  }
+
+  return { allowed: true, retryAfterSeconds: 0 };
+}
+
+export async function recordFailedLogin(identifiers: string[]) {
+  const now = Date.now();
+  await db.insert(loginAttempts).values(identifiers.map((identifier) => ({ id: createId(), identifier, createdAt: now })));
+}
+
+export async function clearLoginAttempts(identifiers: string[]) {
+  for (const identifier of identifiers) {
+    await db.delete(loginAttempts).where(eq(loginAttempts.identifier, identifier));
+  }
+}
 
 export async function createSession(userId: string, ipAddress?: string, userAgent?: string) {
   const token = createId() + createId(); // ~44 chars of entropy

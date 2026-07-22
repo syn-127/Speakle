@@ -3,7 +3,15 @@ import { zValidator } from '@hono/zod-validator';
 import { db, users } from '@speakle/db';
 import { eq } from 'drizzle-orm';
 import { loginSchema, changePasswordSchema } from '@speakle/shared';
-import { createSession, deleteSession, verifyPassword, hashPassword } from '../../lib/auth.js';
+import {
+  createSession,
+  deleteSession,
+  verifyPassword,
+  hashPassword,
+  checkLoginRateLimit,
+  recordFailedLogin,
+  clearLoginAttempts,
+} from '../../lib/auth.js';
 import { authMiddleware } from '../../middleware/auth.js';
 import { dbv } from '../../lib/db-helpers.js';
 
@@ -12,12 +20,24 @@ export const authRouter = new Hono();
 authRouter.post('/login', zValidator('json', loginSchema), async (c) => {
   const { email, password } = c.req.valid('json');
 
+  const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim() ?? c.req.header('x-real-ip') ?? 'unknown';
+  const rateLimitKeys = [`ip:${ip}`, `email:${email.toLowerCase()}`];
+
+  const rateLimit = await checkLoginRateLimit(rateLimitKeys);
+  if (!rateLimit.allowed) {
+    c.header('Retry-After', String(rateLimit.retryAfterSeconds));
+    return c.json({ error: 'Too many login attempts. Try again later.' }, 429);
+  }
+
   const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
   const user = result[0];
 
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
+    await recordFailedLogin(rateLimitKeys);
     return c.json({ error: 'Invalid email or password' }, 401);
   }
+
+  await clearLoginAttempts(rateLimitKeys);
 
   const session = await createSession(
     user.id,
