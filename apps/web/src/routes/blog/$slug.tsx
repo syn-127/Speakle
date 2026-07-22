@@ -28,7 +28,7 @@ function BlogPost() {
       </header>
 
       <main className="container mx-auto max-w-3xl px-4 py-12">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to blog</Link>
+        <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">← Back to blog</Link>
 
         <article className="mt-8">
           <header className="mb-8">

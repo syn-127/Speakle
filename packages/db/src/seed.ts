@@ -43,6 +43,7 @@ async function seed() {
     { key: 'comments_enabled', value: JSON.stringify(true), category: 'general' as const },
     { key: 'comment_moderation', value: JSON.stringify(true), category: 'general' as const },
     { key: 'timezone', value: JSON.stringify('UTC'), category: 'general' as const },
+    { key: 'show_homepage', value: JSON.stringify(true), category: 'general' as const },
     {
       key: 'default_meta_description',
       value: JSON.stringify(''),

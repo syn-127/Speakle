@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { Save, Eye, EyeOff } from 'lucide-react';
@@ -43,12 +44,14 @@ function GeneralSettings() {
   const [siteTitle, setSiteTitle] = useState('');
   const [siteDesc, setSiteDesc] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
+  const [showHomepage, setShowHomepage] = useState(true);
 
   useEffect(() => {
     if (data) {
       setSiteTitle((data['site_title'] as string) ?? '');
       setSiteDesc((data['site_description'] as string) ?? '');
       setSiteUrl((data['site_url'] as string) ?? '');
+      setShowHomepage((data['show_homepage'] as boolean | undefined) ?? true);
     }
   }, [data]);
 
@@ -58,6 +61,7 @@ function GeneralSettings() {
         { key: 'site_title', value: siteTitle, category: 'general' },
         { key: 'site_description', value: siteDesc, category: 'general' },
         { key: 'site_url', value: siteUrl, category: 'general' },
+        { key: 'show_homepage', value: showHomepage, category: 'general' },
       ]),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['settings'] });
@@ -80,6 +84,15 @@ function GeneralSettings() {
         <div className="space-y-1.5">
           <Label>Site URL</Label>
           <Input value={siteUrl} onChange={(e) => setSiteUrl(e.target.value)} type="url" />
+        </div>
+        <div className="flex items-center justify-between rounded-lg border p-4">
+          <div className="space-y-0.5">
+            <Label>Show Homepage</Label>
+            <p className="text-xs text-muted-foreground">
+              When off, visitors go straight to the blog instead of a landing page.
+            </p>
+          </div>
+          <Switch checked={showHomepage} onCheckedChange={setShowHomepage} />
         </div>
         <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
           <Save className="h-4 w-4" />

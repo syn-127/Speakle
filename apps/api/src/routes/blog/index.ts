@@ -2,8 +2,14 @@ import { Hono } from 'hono';
 import { db, posts, categories, tags, settings } from '@speakle/db';
 import { eq, desc, like, and, or } from 'drizzle-orm';
 import { listPosts, getPost } from '../../services/post.service';
+import { getSetting } from '../../lib/settings.js';
 
 export const blogRouter = new Hono();
+
+blogRouter.get('/site-config', async (c) => {
+  const showHomepage = await getSetting('show_homepage');
+  return c.json({ showHomepage: showHomepage === null ? true : Boolean(showHomepage) });
+});
 
 blogRouter.get('/posts', async (c) => {
   const page = parseInt(c.req.query('page') ?? '1', 10);

@@ -63,7 +63,7 @@ export function AdminSidebar() {
 
       <div className="border-t p-4">
         <Link
-          to="/"
+          to="/blog"
           target="_blank"
           className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
         >
