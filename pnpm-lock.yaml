@@ -57,10 +57,10 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^1.19.14
-        version: 1.19.14(hono@4.12.34)
+        version: 1.19.14(hono@4.13.5)
       '@hono/zod-validator':
         specifier: ^0.4.3
-        version: 0.4.3(hono@4.12.34)(zod@3.25.76)
+        version: 0.4.3(hono@4.13.5)(zod@3.25.76)
       '@paralleldrive/cuid2':
         specifier: ^2.3.1
         version: 2.3.1
@@ -83,8 +83,8 @@ importers:
         specifier: 11.9.1
         version: 11.9.1
       hono:
-        specifier: ^4.12.34
-        version: 4.12.34
+        specifier: ^4.13.5
+        version: 4.13.5
       multer:
         specifier: ^1.4.5-lts.2
         version: 1.4.5-lts.2
@@ -3090,8 +3090,8 @@ packages:
     resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.12.34:
-    resolution: {integrity: sha512-GqXJqY/xJkJmuloTrnV1ZEXG3fqte+VjkUqoRNZXcrUidiUOP4fMSIHHY4tsqZBK++kVyWmt/AAfSUuy57/eSA==}
+  hono@4.13.5:
+    resolution: {integrity: sha512-O6+/eCYRkzzzy0rPWwKLiGBR1nFuUPZynnwjxN1MBA62NNqbT0wQEzQyK2gSO5yDIDB336sXQleAhOHrzlYyKw==}
     engines: {node: '>=16.9.0'}
 
   ieee754@1.2.1:
@@ -4509,13 +4509,13 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@hono/node-server@1.19.14(hono@4.12.34)':
+  '@hono/node-server@1.19.14(hono@4.13.5)':
     dependencies:
-      hono: 4.12.34
+      hono: 4.13.5
 
-  '@hono/zod-validator@0.4.3(hono@4.12.34)(zod@3.25.76)':
+  '@hono/zod-validator@0.4.3(hono@4.13.5)(zod@3.25.76)':
     dependencies:
-      hono: 4.12.34
+      hono: 4.13.5
       zod: 3.25.76
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -6257,7 +6257,7 @@ snapshots:
 
   highlight.js@11.11.1: {}
 
-  hono@4.12.34: {}
+  hono@4.13.5: {}
 
   ieee754@1.2.1: {}
 
