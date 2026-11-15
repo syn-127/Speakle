@@ -39,7 +39,7 @@ pluginsRouter.put(
   '/:id/config',
   authMiddleware,
   adminOnly,
-  zValidator('json', z.record(z.unknown())),
+  zValidator('json', z.record(z.string(), z.unknown())),
   async (c) => {
     const id = c.req.param('id');
     const config = c.req.valid('json');
@@ -82,7 +82,7 @@ themesRouter.put(
   '/:id/config',
   authMiddleware,
   adminOnly,
-  zValidator('json', z.record(z.unknown())),
+  zValidator('json', z.record(z.string(), z.unknown())),
   async (c) => {
     const id = c.req.param('id');
     const config = c.req.valid('json');
