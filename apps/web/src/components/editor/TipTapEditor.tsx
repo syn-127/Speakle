@@ -1,4 +1,5 @@
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
@@ -52,7 +53,7 @@ export function TipTapEditor({ content, onChange, placeholder, className }: TipT
     if (!editor) return;
     const parsed = content ? JSON.parse(content) as object : null;
     if (parsed && JSON.stringify(editor.getJSON()) !== content) {
-      editor.commands.setContent(parsed, false);
+      editor.commands.setContent(parsed, { emitUpdate: false });
     }
   }, [content]);
 
@@ -65,7 +66,6 @@ export function TipTapEditor({ content, onChange, placeholder, className }: TipT
       {editor && (
         <BubbleMenu
           editor={editor}
-          tippyOptions={{ duration: 100 }}
           className="flex items-center gap-1 rounded-lg border bg-background shadow-lg p-1"
         >
           <button

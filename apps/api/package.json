@@ -12,8 +12,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.14",
-    "@hono/zod-validator": "^0.4.3",
+    "@hono/node-server": "^2.1.8",
+    "@hono/zod-validator": "^0.9.1",
     "@paralleldrive/cuid2": "^2.3.1",
     "@speakle/ai": "workspace:*",
     "@speakle/db": "workspace:*",
@@ -21,17 +21,15 @@
     "@types/better-sqlite3": "^7.6.13",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^11.10.0",
-    "hono": "^4.12.34",
-    "multer": "^1.4.5-lts.2",
+    "hono": "^4.13.16",
     "openai": "^6.39.1",
-    "zod": "^3.24.1"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/multer": "^1.4.12",
     "@types/node": "^22.12.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "vitest": "^4.1.11"
   }
 }
